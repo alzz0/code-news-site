@@ -2,6 +2,7 @@
 const AWS = require("aws-sdk");
 const { sendResponse, validateInput } = require("../functions");
 const cognito = new AWS.CognitoIdentityServiceProvider();
+const dynamodb = new AWS.DynamoDB();
 module.exports.handler = async (event) => {
   try {
     const isValid = validateInput(event.body);
@@ -12,6 +13,7 @@ module.exports.handler = async (event) => {
 
     const { email, password } = JSON.parse(event.body);
     const { user_pool_id } = process.env;
+
     const params = {
       UserPoolId: user_pool_id,
       Username: email,
@@ -38,6 +40,22 @@ module.exports.handler = async (event) => {
         Permanent: true,
       };
       await cognito.adminSetUserPassword(paramsForSetPass).promise();
+      const date = new Date().getTime();
+      try {
+        const paramsforDB = {
+          Item: {
+            id: { S: date.toString() },
+            email: { S: email },
+            username: { S: " " },
+            createdAt: { S: new Date().toISOString().toString() },
+          },
+          TableName: "usersTable",
+        };
+        await dynamodb.putItem(paramsforDB).promise();
+      } catch (error) {
+        console.log(error);
+      }
+
       return sendResponse(200, {
         message: "User registration successful",
       });

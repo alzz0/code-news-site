@@ -14,6 +14,12 @@ provider:
         - cognito-idp:AdminInitiateAuth
         - cognito-idp:AdminCreateUser
         - cognito-idp:AdminSetUserPassword
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
       Resource: "*"
 functions:
   loginUser:
@@ -43,9 +49,6 @@ functions:
             name: PrivateAuthorizer
             type: COGNITO_USER_POOLS
             arn: !GetAtt UserPool.Arn
-            #  Fn::GetAtt
-            #   - UserPool
-            #   - Arn
             claims:
               - email
 resources:
@@ -73,3 +76,17 @@ resources:
         IdTokenValidity: 5
         ExplicitAuthFlows:
           - "ADMIN_NO_SRP_AUTH"
+
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
