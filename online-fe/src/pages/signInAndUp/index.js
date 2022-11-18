@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
-export default function SignInAndUp() {
+import config from "../../config";
+console.log(config);
+const SignUp = () => {
+  const { URL } = config.apiGateway;
+  const [responseMessage, setResponseMessage] = useState("");
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-
   const handleChange = (e) => {
     console.log(e.target.value);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(e);
-    const url =
-      "https://58jjw78k39.execute-api.us-east-1.amazonaws.com/dev/user/signup";
+    const url = `${URL}user/signup`;
     const data = {
       email: user.email,
       password: user.password,
@@ -27,11 +28,12 @@ export default function SignInAndUp() {
         console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        setResponseMessage(err.response.data.message);
       });
   };
   return (
     <div>
+      <h1>Sign up </h1>
       <form onSubmit={submitForm}>
         <input
           onChange={handleChange}
@@ -59,6 +61,64 @@ export default function SignInAndUp() {
         />
         <input type="submit" value="Sign Up" />
       </form>
+      {responseMessage}
     </div>
+  );
+};
+
+const SignIn = () => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+  const submitForm = (e) => {
+    e.preventDefault();
+    const url = `${URL}user/login`;
+    const data = {
+      email: user.email,
+      password: user.password,
+    };
+    axios
+      .post(url, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return (
+    <>
+      {" "}
+      <h1>Sign in </h1>
+      <form onSubmit={submitForm}>
+        <input
+          onChange={handleChange}
+          type="email"
+          name="email"
+          placeholder="email"
+        />
+        <input
+          onChange={handleChange}
+          type="password"
+          name="password"
+          placeholder="password"
+        />
+        <input type="submit" value="Sign Up" />
+      </form>
+    </>
+  );
+};
+
+export default function SignInAndUp() {
+  return (
+    <>
+      <SignUp />
+      <SignIn />
+    </>
   );
 }
