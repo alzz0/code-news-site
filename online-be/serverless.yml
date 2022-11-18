@@ -20,6 +20,13 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - s3:PutObject
+        - s3:GetObject
+        - s3:DeleteObject
+        - s3:GetBucketLocation
+        - s3:ListObjects
+        - s3:ListBucketVersions
+        - s3:ListBucketMultipartUploads
       Resource: "*"
 functions:
   loginUser:
@@ -35,6 +42,14 @@ functions:
     events:
       - http:
           path: user/signup
+          method: post
+          cors: true
+
+  uploadPost:
+    handler: post/upload.handler
+    events:
+      - http:
+          path: post/upload
           method: post
           cors: true
 
@@ -90,3 +105,21 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+    postsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: postsTable
+        AttributeDefinitions:
+          - AttributeName: url
+            AttributeType: S
+        KeySchema:
+          - AttributeName: url
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    ImageBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: imagebucket-alimansour

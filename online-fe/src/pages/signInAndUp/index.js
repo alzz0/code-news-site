@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import config from "../../config";
-console.log(config);
+
 const SignUp = () => {
   const { URL } = config.apiGateway;
   const [responseMessage, setResponseMessage] = useState("");
@@ -52,12 +52,14 @@ const SignUp = () => {
           type="email"
           name="email"
           placeholder="email"
+          autoComplete="email"
         />
         <input
           onChange={handleChange}
           type="password"
           name="password"
           placeholder="password"
+          autoComplete="current-password"
         />
         <input type="submit" value="Sign Up" />
       </form>
@@ -101,12 +103,14 @@ const SignIn = () => {
           type="email"
           name="email"
           placeholder="email"
+          autoComplete="email"
         />
         <input
           onChange={handleChange}
           type="password"
           name="password"
           placeholder="password"
+          autoComplete="current-password"
         />
         <input type="submit" value="Sign Up" />
       </form>

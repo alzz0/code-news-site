@@ -1,6 +1,5 @@
-//const { CognitoIdentityServiceProvider } = require("aws-sdk");
 const AWS = require("aws-sdk");
-const { sendResponse, validateInput } = require("../functions");
+const { sendResponse, validateInput } = require("../userFunctions");
 const cognito = new AWS.CognitoIdentityServiceProvider();
 const dynamodb = new AWS.DynamoDB();
 module.exports.handler = async (event) => {
