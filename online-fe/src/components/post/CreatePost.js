@@ -3,23 +3,22 @@ import { Input, Button } from "../../utils";
 import config from "../../config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+
 const CreatePost = () => {
   const [url, setUrl] = useState("");
   const [file, setFile] = useState([]);
-
   const id = uuidv4();
-  console.log(id);
 
   const handleChange = (e) => {
     setUrl(e.target.value);
   };
 
   const handleFileChange = async (e) => {
-    console.log(e.target.files[0]);
     const file = e.target.files[0];
     const convertedFile = await convertToBase64(file);
     setFile(convertedFile);
   };
+
   const convertToBase64 = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();

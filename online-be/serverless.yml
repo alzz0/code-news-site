@@ -53,6 +53,14 @@ functions:
           method: post
           cors: true
 
+  getPosts:
+    handler: post/allposts.handler
+    events:
+      - http:
+          path: posts
+          method: get
+          cors: true
+
   privateAPI:
     handler: user/private.handler
     events:
@@ -123,3 +131,17 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: imagebucket-alimansour
+
+    postImageBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref ImageBucket
+        #imagebucket-alimansour
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "s3:GetObject"
+              Effect: Allow
+              Principal: "*"
+              Resource: "arn:aws:s3:::imagebucket-alimansour/*"
