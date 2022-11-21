@@ -3,6 +3,7 @@ export const Input = ({
   name,
   accept,
   handleChange,
+  placeholder,
   required = "false",
 }) => {
   return (
@@ -12,6 +13,7 @@ export const Input = ({
         name={name}
         required={required}
         accept={accept}
+        placeholder={placeholder}
         onChange={handleChange}
       />
     </>

@@ -1,16 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../../utils";
 import axios from "axios";
+import config from "../../config";
 const PostGrid = () => {
+  const [allPosts, setAllPosts] = useState([]);
+  const urlApi = `${config.apiGateway.URL}posts`;
   useEffect(() => {
     axios
-      .get("https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/posts")
+      .get(urlApi)
       .then((res) => {
         console.log(res);
-      });
+        setAllPosts(res.data.Items);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
-  return <div>postgrid</div>;
+  return <Card items={allPosts} />;
 };
 
 export default PostGrid;

@@ -3,15 +3,21 @@ import { Input, Button } from "../../utils";
 import config from "../../config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import Select from "react-select";
 
 const CreatePost = () => {
   const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
   const [file, setFile] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [readTime, setReadTime] = useState("");
   const id = uuidv4();
 
-  const handleChange = (e) => {
-    setUrl(e.target.value);
-  };
+  const options = [
+    { value: "blockchain", label: "blockchain" },
+    { value: "javascript", label: "javascript" },
+    { value: "tutorials", label: "tutorials" },
+  ];
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -30,11 +36,17 @@ const CreatePost = () => {
   };
 
   const handleSubmit = () => {
+    console.log(tags);
+    const selectedTags = tags.map((tag) => tag.value);
+    console.log(selectedTags);
     const urlApi = `${config.apiGateway.URL}post/upload`;
     const data = {
       url,
+      title,
       file,
       id,
+      selectedTags,
+      readTime,
     };
     axios
       .post(urlApi, data)
@@ -46,12 +58,27 @@ const CreatePost = () => {
   return (
     <div>
       <Input
-        placeholder="url"
+        placeholder="URL"
         type="text"
         name="url"
         required={true}
-        handleChange={handleChange}
+        handleChange={(e) => setUrl(e.target.value)}
       />
+      <Input
+        placeholder="TITLE"
+        type="text"
+        name="title"
+        required={true}
+        handleChange={(e) => setTitle(e.target.value)}
+      />
+      <Input
+        placeholder="Read time"
+        type="number"
+        name="readTime"
+        required={true}
+        handleChange={(e) => setReadTime(e.target.value)}
+      />
+      <Select onChange={setTags} options={options} isMulti />
       <Input
         type="file"
         name="file"
