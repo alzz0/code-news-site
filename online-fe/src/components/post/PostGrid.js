@@ -9,13 +9,25 @@ const PostGrid = () => {
     axios
       .get(urlApi)
       .then((res) => {
-        console.log(res);
         setAllPosts(res.data.Items);
       })
       .catch((error) => console.log(error));
   }, []);
 
-  return <Card items={allPosts} />;
+  return (
+    <div style={styles.gridContainer}>
+      <Card items={allPosts} />
+    </div>
+  );
 };
-
+const styles = {
+  gridContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    flexWrap: "wrap",
+    maxWidth: "3000px",
+    margin: "0 auto",
+  },
+};
 export default PostGrid;

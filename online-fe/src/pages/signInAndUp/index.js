@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import config from "../../config";
 
+const { URL } = config.apiGateway;
 const SignUp = () => {
-  const { URL } = config.apiGateway;
   const [responseMessage, setResponseMessage] = useState("");
   const [user, setUser] = useState({
     firstName: "",
@@ -112,7 +112,7 @@ const SignIn = () => {
           placeholder="password"
           autoComplete="current-password"
         />
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value="Sign In" />
       </form>
     </>
   );

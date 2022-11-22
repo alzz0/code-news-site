@@ -36,6 +36,7 @@ const CreatePost = () => {
   };
 
   const handleSubmit = () => {
+    if (!url || !title || !file || !tags || !readTime) return;
     console.log(tags);
     const selectedTags = tags.map((tag) => tag.value);
     console.log(selectedTags);
@@ -78,7 +79,7 @@ const CreatePost = () => {
         required={true}
         handleChange={(e) => setReadTime(e.target.value)}
       />
-      <Select onChange={setTags} options={options} isMulti />
+      <Select onChange={setTags} options={options} isMulti isSearchable />
       <Input
         type="file"
         name="file"
