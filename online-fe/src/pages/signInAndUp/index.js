@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import config from "../../config";
-
+import { Input } from "../../utils";
 const { URL } = config.apiGateway;
 const SignUp = () => {
   const [responseMessage, setResponseMessage] = useState("");
@@ -35,33 +35,33 @@ const SignUp = () => {
     <div>
       <h1>Sign up </h1>
       <form onSubmit={submitForm}>
-        <input
+        <Input
           onChange={handleChange}
           type="text"
           name="firstName"
           placeholder="First Name"
         />
-        <input
+        <Input
           onChange={handleChange}
           type="text"
           name="lastName"
           placeholder="Last Name"
         />
-        <input
+        <Input
           onChange={handleChange}
           type="email"
           name="email"
           placeholder="email"
           autoComplete="email"
         />
-        <input
+        <Input
           onChange={handleChange}
           type="password"
           name="password"
           placeholder="password"
           autoComplete="current-password"
         />
-        <input type="submit" value="Sign Up" />
+        <Input type="submit" value="Sign Up" />
       </form>
       {responseMessage}
     </div>
@@ -98,21 +98,21 @@ const SignIn = () => {
       {" "}
       <h1>Sign in </h1>
       <form onSubmit={submitForm}>
-        <input
-          onChange={handleChange}
+        <Input
+          handleChange={handleChange}
           type="email"
           name="email"
           placeholder="email"
           autoComplete="email"
         />
-        <input
-          onChange={handleChange}
+        <Input
+          handleChange={handleChange}
           type="password"
           name="password"
           placeholder="password"
           autoComplete="current-password"
         />
-        <input type="submit" value="Sign In" />
+        <Input type="submit" value="Sign In" />
       </form>
     </>
   );

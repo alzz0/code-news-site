@@ -1,6 +1,4 @@
 const AWS = require("aws-sdk");
-// const { sendResponse } = require("../functions");
-
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 module.exports.handler = async (event) => {
@@ -8,10 +6,6 @@ module.exports.handler = async (event) => {
   try {
     const { email, password } = JSON.parse(event.body);
     const { user_pool_id, client_id } = process.env;
-    console.log(email);
-    console.log(password);
-    console.log(user_pool_id);
-    console.log(client_id);
 
     const params = {
       AuthFlow: "ADMIN_NO_SRP_AUTH",
@@ -32,7 +26,8 @@ module.exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      token: data.AuthenticationResult.IdToken,
+      body: JSON.stringify(data.AuthenticationResult.IdToken),
+      isBase64Encoded: false,
     };
     console.log("response: ", response);
 
