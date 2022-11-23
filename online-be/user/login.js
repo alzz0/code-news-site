@@ -18,7 +18,12 @@ module.exports.handler = async (event) => {
     };
 
     const data = await cognito.adminInitiateAuth(params).promise();
-    console.log("data: ", data);
+
+    const userParams = {
+      AccessToken: data.AuthenticationResult.AccessToken,
+    };
+    const user = await cognito.getUser(userParams).promise();
+
     const response = {
       statusCode: 200,
       headers: {
@@ -26,7 +31,7 @@ module.exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      body: JSON.stringify(data.AuthenticationResult.IdToken),
+      body: JSON.stringify([data, user]),
       isBase64Encoded: false,
     };
     console.log("response: ", response);
