@@ -4,7 +4,7 @@ export const Input = ({
   accept,
   handleChange,
   placeholder,
-  required = "false",
+  required = false,
 }) => {
   return (
     <>

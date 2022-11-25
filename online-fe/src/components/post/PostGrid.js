@@ -9,7 +9,10 @@ const PostGrid = () => {
     axios
       .get(urlApi)
       .then((res) => {
-        setAllPosts(res.data.Items);
+        let sortedItems = res.data.Items.sort(
+          (a, b) => b.uploadDate - a.uploadDate
+        );
+        setAllPosts(sortedItems);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -24,9 +27,9 @@ const styles = {
   gridContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     flexWrap: "wrap",
-    maxWidth: "3000px",
+    maxWidth: "2500px",
     margin: "0 auto",
   },
 };

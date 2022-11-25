@@ -3,9 +3,8 @@ import CreatePost from "../../components/post/CreatePost";
 import PostGrid from "../../components/post/PostGrid";
 export default function Landing() {
   return (
-    <div>
-      <CreatePost />
-      <h1>Landing page</h1>
+    <div style={{ paddingTop: "100px" }}>
+      {/* <CreatePost /> */}
       <PostGrid />
     </div>
   );

@@ -37,9 +37,7 @@ const CreatePost = () => {
 
   const handleSubmit = () => {
     if (!url || !title || !file || !tags || !readTime) return;
-    console.log(tags);
     const selectedTags = tags.map((tag) => tag.value);
-    console.log(selectedTags);
     const urlApi = `${config.apiGateway.URL}post/upload`;
     const data = {
       url,
@@ -56,6 +54,16 @@ const CreatePost = () => {
       })
       .catch((err) => console.log(err));
   };
+  const colourStyles = {
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      return {
+        ...styles,
+        backgroundColor: isFocused ? "#999999" : null,
+        color: "#333333",
+      };
+    },
+  };
+
   return (
     <div>
       <Input
@@ -79,7 +87,14 @@ const CreatePost = () => {
         required={true}
         handleChange={(e) => setReadTime(e.target.value)}
       />
-      <Select onChange={setTags} options={options} isMulti isSearchable />
+      <Select
+        onChange={setTags}
+        closeMenuOnSelect={false}
+        options={options}
+        isMulti
+        isSearchable
+        styles={colourStyles}
+      />
       <Input
         type="file"
         name="file"

@@ -24,7 +24,12 @@ export default function Navbar() {
 
 const styles = {
   navContainer: {
-    margin: "30px",
+    position: "fixed",
+    display: "flex",
+    width: "100%",
+    height: "60px",
+    borderBottom: "1px solid rgba(215, 215, 215, 0.4)",
+    background: "#121212",
   },
   logo: {
     marginRight: "auto",
@@ -34,6 +39,8 @@ const styles = {
     listStyle: "none",
     justifyContent: "flex-end",
     paddingLeft: 0,
+    width: "100%",
+    alignItems: "center",
   },
   navItems: {
     marginRight: "20px",

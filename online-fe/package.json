@@ -9,6 +9,7 @@
     "aws-amplify": "^4.3.34",
     "aws-sdk": "^2.1257.0",
     "axios": "^0.27.2",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",

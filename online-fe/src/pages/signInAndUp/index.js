@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import config from "../../config";
 import { Input } from "../../utils";
+import { AuthContext } from "../../hooks/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const { URL } = config.apiGateway;
 const SignUp = () => {
   const [responseMessage, setResponseMessage] = useState("");
@@ -11,6 +14,8 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     console.log(e.target.value);
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -26,6 +31,7 @@ const SignUp = () => {
       .post(url, data)
       .then((res) => {
         console.log(res);
+        navigate("/");
       })
       .catch((err) => {
         setResponseMessage(err.response.data.message);
@@ -73,8 +79,11 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
+  const { setAuth } = useContext(AuthContext);
+
   const handleChange = (e) => {
-    console.log(e.target.value);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const submitForm = (e) => {
@@ -87,7 +96,20 @@ const SignIn = () => {
     axios
       .post(url, data)
       .then((res) => {
-        console.log(res);
+        setAuth(res.data);
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(res.data.AuthenticationResult.AccessToken)
+        );
+        localStorage.setItem(
+          "refreshToken",
+          JSON.stringify(res.data.AuthenticationResult.RefreshToken)
+        );
+        localStorage.setItem(
+          "expiresIn",
+          JSON.stringify(res.data.AuthenticationResult.ExpiresIn)
+        );
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
@@ -120,9 +142,9 @@ const SignIn = () => {
 
 export default function SignInAndUp() {
   return (
-    <>
+    <div style={{ paddingTop: "100px" }}>
       <SignUp />
       <SignIn />
-    </>
+    </div>
   );
 }
