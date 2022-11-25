@@ -45,6 +45,14 @@ functions:
           method: post
           cors: true
 
+  logoutUser:
+    handler: user/logout.handler
+    events:
+      - http:
+          path: logout
+          method: get
+          cors: true
+
   uploadPost:
     handler: post/upload.handler
     events:
@@ -136,7 +144,6 @@ resources:
       Type: AWS::S3::BucketPolicy
       Properties:
         Bucket: !Ref ImageBucket
-        #imagebucket-alimansour
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

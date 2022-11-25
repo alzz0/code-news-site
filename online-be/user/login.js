@@ -31,7 +31,7 @@ module.exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      body: JSON.stringify([data, user]),
+      body: JSON.stringify({ ...data, ...user }),
       isBase64Encoded: false,
     };
     console.log("response: ", response);
@@ -39,7 +39,9 @@ module.exports.handler = async (event) => {
     return response;
   } catch (error) {
     console.log("Error logging user in :::", error);
-    const message = error.message ? error.message : "Internal server error";
-    // return sendResponse(500, { message });
+    return {
+      statusCode: 400,
+      body: JSON.stringify(error),
+    };
   }
 };
