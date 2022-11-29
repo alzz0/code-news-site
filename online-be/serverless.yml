@@ -18,6 +18,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - dynamodb:PostItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         - s3:PutObject
@@ -66,7 +67,7 @@ functions:
     events:
       - http:
           path: posts
-          method: get
+          method: post
           cors: true
 
   privateAPI:
@@ -127,10 +128,10 @@ resources:
       Properties:
         TableName: postsTable
         AttributeDefinitions:
-          - AttributeName: url
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: url
+          - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

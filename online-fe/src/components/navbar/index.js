@@ -25,11 +25,13 @@ export default function Navbar() {
 const styles = {
   navContainer: {
     position: "fixed",
+    gridArea: "header",
     display: "flex",
     width: "100%",
     height: "60px",
-    borderBottom: "1px solid rgba(215, 215, 215, 0.4)",
+    // borderBottom: "1px solid rgba(215, 215, 215, 0.4)",
     background: "#121212",
+    top: "0",
   },
   logo: {
     marginRight: "auto",

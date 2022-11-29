@@ -1,36 +1,34 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../utils";
-import axios from "axios";
-import config from "../../config";
-const PostGrid = () => {
-  const [allPosts, setAllPosts] = useState([]);
-  const urlApi = `${config.apiGateway.URL}posts`;
-  useEffect(() => {
-    axios
-      .get(urlApi)
-      .then((res) => {
-        let sortedItems = res.data.Items.sort(
-          (a, b) => b.uploadDate - a.uploadDate
-        );
-        setAllPosts(sortedItems);
-      })
-      .catch((error) => console.log(error));
-  }, []);
 
-  return (
-    <div style={styles.gridContainer}>
-      <Card items={allPosts} />
-    </div>
-  );
+import useFetch from "../../hooks/useFetch";
+
+const PostGrid = () => {
+  const [page, setPage] = useState(1);
+  const { loading, error, list, lastPage } = useFetch(page);
+
+  const onScroll = () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      if (lastPage) return;
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    console.log(list);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [list]);
+
+  if (loading) {
+    return "loading";
+  } else {
+    return <Card items={list} />;
+  }
 };
-const styles = {
-  gridContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    maxWidth: "2500px",
-    margin: "0 auto",
-  },
-};
+
 export default PostGrid;
