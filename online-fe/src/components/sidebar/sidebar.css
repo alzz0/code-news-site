@@ -3,6 +3,14 @@
   height: 100%;
   width: 250px;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+.bottom-nav {
+  position: absolute;
+  bottom: 100px;
 }
 
-/* laptop:w-60 -translate-x-70 laptop:top-14 laptop:h-[calc(100vh-theme(space.14))] flex flex-col w-70 laptop:-translate-x-0 left-0 bg-theme-bg-primary z-3 border-r border-theme-divider-tertiary transition-[width,transform] duration-300 ease-in-out group fixed top-0  h-full  */
+.empty-space {
+  flex: 1 1 0%;
+}
