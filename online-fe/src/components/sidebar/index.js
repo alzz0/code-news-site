@@ -8,6 +8,7 @@ import { AiOutlineArrowUp, AiOutlineEye } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { GiDiscussion } from "react-icons/gi";
 import { BsFillBookmarkFill, BsToggles } from "react-icons/bs";
+import { RiAccountPinBoxLine } from "react-icons/ri";
 
 const Sidebar = () => {
   const [highlighted, setHighlighted] = useState("");
@@ -29,7 +30,7 @@ const Sidebar = () => {
       <nav>
         <ul className="sidebar-main">
           <li className="sidebar-header">
-            <AiOutlineArrowUp size={30} />
+            <RiAccountPinBoxLine size={30} />
             <span style={{ maxWidth: "180px" }}>
               {auth?.Username.slice(0, auth.Username.indexOf("@")).slice(
                 0,

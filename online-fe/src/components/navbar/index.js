@@ -1,8 +1,12 @@
 import React from "react";
+import { AuthContext } from "../../hooks/AuthContext";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import logo192 from "../../logo.svg";
 export default function Navbar() {
+  const { auth } = useContext(AuthContext);
+
   return (
     <div style={styles.navContainer}>
       <ul style={styles.navUl}>
@@ -11,12 +15,11 @@ export default function Navbar() {
             <img src={logo192} alt="" width={50} />
           </NavLink>
         </li>
-        <li style={styles.navItems}>
-          <NavLink to="/">Home</NavLink>
-        </li>
-        <li style={styles.navItems}>
-          <NavLink to="/signin">Sign in</NavLink>
-        </li>
+        {!auth?.Username && (
+          <li style={styles.navItems}>
+            <NavLink to="/signin">Sign In</NavLink>
+          </li>
+        )}
       </ul>
     </div>
   );
