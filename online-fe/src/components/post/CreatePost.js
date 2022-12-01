@@ -16,10 +16,21 @@ const CreatePost = () => {
   const options = [
     { value: "blockchain", label: "blockchain" },
     { value: "javascript", label: "javascript" },
+    { value: "career", label: "Career" },
+    { value: "webdevelopment", label: "Web Development" },
     { value: "tutorials", label: "tutorials" },
+    { value: "mobiledevelopment", label: "Mobile Development" },
+    { value: "cloud", label: "Cloud" },
+    { value: "web3", label: "Web 3.0" },
+    { value: "css", label: "CSS" },
+    { value: "devops", label: "DevOps" },
+    { value: "python", label: "Python" },
+    { value: "datascience", label: "Data Science" },
+    { value: "hardware", label: "Hardware" },
   ];
 
   const handleFileChange = async (e) => {
+    console.log(e);
     const file = e.target.files[0];
     const convertedFile = await convertToBase64(file);
     setFile(convertedFile);
@@ -36,6 +47,7 @@ const CreatePost = () => {
   };
 
   const handleSubmit = () => {
+    console.log("handle submit");
     if (!url || !title || !file || !tags || !readTime) return;
     const selectedTags = tags.map((tag) => tag.value);
     const urlApi = `${config.apiGateway.URL}post/upload`;
@@ -47,12 +59,17 @@ const CreatePost = () => {
       selectedTags,
       readTime,
     };
+
+    // delete, for populating db only
+    // for (let i = 0; i < 2; i++) {
+    // data.id = Math.random().toString();
     axios
       .post(urlApi, data)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err));
+    // }
   };
   const colourStyles = {
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {

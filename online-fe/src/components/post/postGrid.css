@@ -1,0 +1,17 @@
+.scroll-up-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  padding: 20px;
+  background-color: rgb(44, 44, 44);
+  cursor: pointer;
+  transition: 0.1s;
+  border-radius: 5px;
+}
+.scroll-up-btn:hover {
+  background-color: rgb(26, 26, 26);
+}
+.removeBtn {
+  display: none;
+  transition: 0.9s;
+}

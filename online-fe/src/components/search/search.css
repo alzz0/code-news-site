@@ -1,0 +1,14 @@
+.main-searchbar {
+  width: 40%;
+  max-width: 580px;
+  border: none;
+  outline: none;
+  height: 35px;
+  background-color: rgb(44, 44, 44);
+  color: #fff;
+  border-radius: 2px;
+  font-size: 16px;
+}
+.main-searchbar::placeholder {
+  color: #fff;
+}

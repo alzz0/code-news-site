@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import config from "../config";
+import config from "../../config";
+import { PostsContext } from "./PostsContext";
 
 function useFetch(page) {
   const [loading, setLoading] = useState(true);
@@ -9,6 +10,7 @@ function useFetch(page) {
   const [list, setList] = useState([]);
   const [lastItem, setLastItem] = useState("");
   const url = `${config.apiGateway.URL}posts`;
+  const { setPosts } = useContext(PostsContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,17 +21,16 @@ function useFetch(page) {
       if (lastPage) return;
       try {
         const res = await axios.post(url, params);
-        console.log(res);
+
         const items = res.data.Items;
 
         if (res.data.LastEvaluatedKey) {
-          setLastItem(res.data.LastEvaluatedKey.id);
-          setList((prevState) => [...prevState, ...items]);
+          setLastItem(res.data.LastEvaluatedKey);
+          setPosts((prevState) => [...prevState, ...items]);
         } else {
-          setList((prevState) => [...prevState, ...items]);
+          setPosts((prevState) => [...prevState, ...items]);
           setLastPage(true);
         }
-        console.log(lastItem);
       } catch (error) {
         console.error(error);
       }

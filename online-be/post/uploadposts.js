@@ -43,14 +43,13 @@ module.exports.handler = async (event) => {
           url: { S: url },
           title: { S: title },
           image: { S: `https://imagebucket-alimansour.s3.amazonaws.com/${id}` },
-          uploadDate: { N: new Date().getTime().toString() },
+          uploadDate: { S: new Date().getTime().toString() },
           upVote: { S: "0" },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
         TableName: "postsTable2",
       };
-      console.log("params:", params);
 
       await dynamodb.putItem(params).promise();
     } catch (error) {

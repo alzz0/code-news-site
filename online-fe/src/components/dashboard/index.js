@@ -1,18 +1,29 @@
 import PostGrid from "../post/PostGrid";
 import Sidebar from "../sidebar";
 import CreatePost from "../../components/post/CreatePost";
-
+import Search from "../../components/search/Search";
+import "./dashboardSearch.css";
+import { PostsContext } from "../../hooks/posts/PostsContext";
+import { useState } from "react";
 const DashBoardLayout = () => {
+  const [posts, setPosts] = useState([]);
   return (
-    <main style={styles.mainContainer}>
-      <aside style={styles.sidebar}>
-        <Sidebar />
-      </aside>
-      <main style={styles.gridContainer}>
-        {/* <CreatePost /> */}
-        <PostGrid />
-      </main>
-    </main>
+    <PostsContext.Provider value={{ posts, setPosts }}>
+      <>
+        <nav className="dashboard-search">
+          <Search />
+        </nav>
+        <main style={styles.mainContainer}>
+          <aside style={styles.sidebar}>
+            <Sidebar />
+          </aside>
+          <main style={styles.gridContainer}>
+            {/* <CreatePost /> */}
+            <PostGrid />
+          </main>
+        </main>
+      </>
+    </PostsContext.Provider>
   );
 };
 const styles = {

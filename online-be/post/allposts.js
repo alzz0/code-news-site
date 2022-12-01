@@ -8,16 +8,18 @@ module.exports.handler = async (event) => {
 
   try {
     let params = {
-      TableName: "postsTable",
-      Limit: 9,
+      TableName: "postsTable2",
+      Limit: 28,
+      FilterExpression: "#uploadDate > :uploadDate",
+      ExpressionAttributeValues: { ":uploadDate": 1 },
+      ExpressionAttributeNames: { "#uploadDate": "uploadDate" },
     };
 
     if (parsedEvent.lastItem) {
-      console.log("lastItem", parsedEvent.lastItem);
-      params.ExclusiveStartKey = { id: parsedEvent.lastItem };
+      params.ExclusiveStartKey = parsedEvent.lastItem;
     }
     const data = await dynamodb.scan(params).promise();
-    console.log("data ", data);
+
     const lastEvaluatedKey = data.LastEvaluatedKey;
 
     const response = {

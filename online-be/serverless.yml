@@ -62,6 +62,14 @@ functions:
           method: post
           cors: true
 
+  uploadPosts:
+    handler: post/uploadposts.handler
+    events:
+      - http:
+          path: post/uploadposts
+          method: post
+          cors: true
+
   getPosts:
     handler: post/allposts.handler
     events:
@@ -126,13 +134,17 @@ resources:
     postsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: postsTable
+        TableName: postsTable2
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: uploadDate
+            AttributeType: N
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: uploadDate
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

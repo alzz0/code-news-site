@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Card } from "../../utils";
-
-import useFetch from "../../hooks/useFetch";
+import { PostsContext } from "../../hooks/posts/PostsContext";
+import useFetch from "../../hooks/posts/useFetch";
+import "./postGrid.css";
 
 const PostGrid = () => {
   const [page, setPage] = useState(1);
   const { loading, error, list, lastPage } = useFetch(page);
+  const { posts } = useContext(PostsContext);
+  const [backToTop, setBackToTop] = useState(false);
 
   const onScroll = () => {
     const scrollTop = document.documentElement.scrollTop;
@@ -14,21 +17,52 @@ const PostGrid = () => {
 
     if (scrollTop + clientHeight >= scrollHeight) {
       if (lastPage) return;
+
       setPage((prevPage) => prevPage + 1);
     }
   };
+  const scrollToTop = () => {
+    setBackToTop(false);
+    setPage(1);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+      /* you can also use 'auto' behaviour
+         in place of 'smooth' */
+    });
+  };
+
+  const showBackUpBtn = () => {
+    const scrollTop = document.documentElement.scrollTop;
+
+    if (scrollTop > 1000) {
+      setBackToTop(true);
+    } else {
+      setBackToTop(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", showBackUpBtn);
+    return () => window.removeEventListener("scroll", showBackUpBtn);
+  }, []);
 
   useEffect(() => {
-    console.log(list);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [list]);
+  }, [list, page]);
 
-  if (loading) {
-    return "loading";
-  } else {
-    return <Card items={list} />;
-  }
+  return (
+    <>
+      <Card items={posts || "loading"} />
+
+      <div
+        onClick={scrollToTop}
+        className={`${backToTop ? "scroll-up-btn" : "removeBtn"} `}
+      >
+        Back to Top
+      </div>
+    </>
+  );
 };
 
 export default PostGrid;

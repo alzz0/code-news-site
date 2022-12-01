@@ -1,12 +1,14 @@
 import "../../components/search/search.css";
 
-export const Input = ({
+export const MainInput = ({
   type,
   name,
   accept,
   handleChange,
   placeholder,
   required = false,
+  style,
+  className,
 }) => {
   return (
     <>
@@ -17,8 +19,10 @@ export const Input = ({
         accept={accept}
         placeholder={placeholder}
         onChange={handleChange}
+        style={style}
+        className={"main-searchbar"}
       />
     </>
   );
 };
-export default Input;
+export default MainInput;
