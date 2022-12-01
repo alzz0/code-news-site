@@ -1,11 +1,22 @@
+import { useState } from "react";
 import "./sidebar.css";
 import { PostsContext } from "../../hooks/posts/PostsContext";
+import { AuthContext } from "../../hooks/AuthContext";
 import { useContext } from "react";
 import logo192 from "../../logo.svg";
+import { AiOutlineArrowUp, AiOutlineEye } from "react-icons/ai";
+import { BiTimeFive } from "react-icons/bi";
+import { GiDiscussion } from "react-icons/gi";
+import { BsFillBookmarkFill, BsToggles } from "react-icons/bs";
+
 const Sidebar = () => {
+  const [highlighted, setHighlighted] = useState("");
   const { setPosts } = useContext(PostsContext);
+  const { auth } = useContext(AuthContext);
+  console.log(auth);
 
   const handleSort = (sortType) => {
+    setHighlighted(sortType);
     setPosts((prevState) => {
       let sortedPosts = [...prevState];
       let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
@@ -16,48 +27,55 @@ const Sidebar = () => {
   return (
     <div className="sidebar-container">
       <nav>
-        {/* <li>
-          <button onClick={handleSort('uploadDate')}>sort</button>
-        </li> */}
-        {/* <span>
-          <li>My feed</li>
-        </span> */}
         <ul className="sidebar-main">
           <li className="sidebar-header">
-            <img src={logo192} width={45} alt="" />
-            <span>Username</span>
+            <AiOutlineArrowUp size={30} />
+            <span style={{ maxWidth: "180px" }}>
+              {auth?.Username.slice(0, auth.Username.indexOf("@")).slice(
+                0,
+                19
+              ) || "Username"}
+            </span>
           </li>
 
           <li
             onClick={() => handleSort("uploadDate")}
             className="sidebar-labels"
           >
-            <img src={logo192} width={45} alt="" />
-            Most Recent
+            <BiTimeFive
+              size={30}
+              style={{
+                color:
+                  highlighted === "uploadDate" ? "rgb(104, 132, 148)" : "#fff",
+              }}
+            />
+            <span>Most Recent</span>
           </li>
-          <li className="sidebar-labels" onClick={() => handleSort("upVote")}>
-            <img src={logo192} width={45} alt="" />
-            Most Upvoted
-          </li>
-          <li className="sidebar-labels">
-            <img src={logo192} width={45} alt="" />
-            Best discussions
-          </li>
-          <li className="sidebar-labels">
-            <img src={logo192} width={45} alt="" />
-            Search
-          </li>
-          <li className="sidebar-labels">
-            <img src={logo192} width={45} alt="" />
-            Bookmarks
-          </li>
-          <li className="sidebar-labels">
-            <img src={logo192} width={45} alt="" />
-            Reading history
+          <li className={"sidebar-labels"} onClick={() => handleSort("upVote")}>
+            <AiOutlineArrowUp
+              size={30}
+              style={{
+                color: highlighted === "upVote" ? "rgb(104, 132, 148)" : "#fff",
+              }}
+            />
+            <span>Most Upvoted</span>
           </li>
           <li className="sidebar-labels">
-            <img src={logo192} width={45} alt="" />
-            Toggle theme
+            <GiDiscussion size={30} />
+            <span>Best discussions</span>
+          </li>
+
+          <li className="sidebar-labels">
+            <BsFillBookmarkFill size={30} />
+            <span>Bookmarks</span>
+          </li>
+          <li className="sidebar-labels">
+            <AiOutlineEye size={30} />
+            <span>Reading history</span>
+          </li>
+          <li className="sidebar-labels">
+            <BsToggles size={30} />
+            <span>Toggle theme</span>
           </li>
         </ul>
       </nav>

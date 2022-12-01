@@ -61,15 +61,15 @@ const CreatePost = () => {
     };
 
     // delete, for populating db only
-    // for (let i = 0; i < 2; i++) {
-    // data.id = Math.random().toString();
+    // for (let i = 0; i < 20; i++) {
+    //   data.id = uuidv4().toString();
     axios
       .post(urlApi, data)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err));
-    // }
+    //}
   };
   const colourStyles = {
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {

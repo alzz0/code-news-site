@@ -4,6 +4,7 @@ import CreatePost from "../../components/post/CreatePost";
 import Search from "../../components/search/Search";
 import "./dashboardSearch.css";
 import { PostsContext } from "../../hooks/posts/PostsContext";
+import { AuthContext } from "../../hooks/AuthContext";
 import { useState } from "react";
 const DashBoardLayout = () => {
   const [posts, setPosts] = useState([]);

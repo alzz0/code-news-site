@@ -27,6 +27,7 @@
   line-height: 52px;
   cursor: pointer;
   border-radius: 10px;
+  align-items: center;
 }
 
 .sidebar-main li:hover {
@@ -36,17 +37,16 @@
 .sidebar-header {
   display: flex;
 }
-
-.sidebar-header img {
-  display: flex;
+.sidebar-header li {
+  align-items: center;
 }
 
 .sidebar-labels {
   display: flex;
 }
 
-.sidebar-labels img {
-  display: flex;
+.sidebar-main span {
+  margin-left: 20px;
 }
 .bottom-nav {
   display: flex;
