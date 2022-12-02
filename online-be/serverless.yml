@@ -91,6 +91,15 @@ functions:
             arn: !GetAtt UserPool.Arn
             claims:
               - email
+
+  fetchNews:
+    handler: post/cronfetchposts.handler
+    events:
+      - schedule: cron(0 * ? * * *)
+      # Hourly: cron(0 * ? * * *)
+      # Every two hours, starting at 12 AM UTC: cron(0 0/2 ? * * *)
+      # https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-schedule-expression.html
+
 resources:
   Resources:
     UserPool:
@@ -134,16 +143,16 @@ resources:
     postsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: postsTable2
+        TableName: postsTable
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: url
             AttributeType: S
-          - AttributeName: uploadDate
-            AttributeType: N
+          - AttributeName: title
+            AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: url
             KeyType: HASH
-          - AttributeName: uploadDate
+          - AttributeName: title
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1

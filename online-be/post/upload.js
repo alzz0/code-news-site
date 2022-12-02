@@ -17,6 +17,7 @@ module.exports.handler = async (event) => {
       base64File.replace(/^data:image\/\w+;base64,/, ""),
       "base64"
     );
+    console.log("buf,", buf);
 
     const data = {
       Key: id,
@@ -25,6 +26,8 @@ module.exports.handler = async (event) => {
       ContentType: "image/png",
       ContentEncoding: "base64",
     };
+
+    console.log("data", data);
     // upload to s3
     s3Bucket.putObject(data, function (err, data) {
       if (err) {
@@ -48,7 +51,7 @@ module.exports.handler = async (event) => {
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
-        TableName: "postsTable2",
+        TableName: "postsTable",
       };
       console.log("params:", params);
 

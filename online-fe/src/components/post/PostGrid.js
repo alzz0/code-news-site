@@ -35,7 +35,7 @@ const PostGrid = () => {
   const showBackUpBtn = () => {
     const scrollTop = document.documentElement.scrollTop;
 
-    if (scrollTop > 1000) {
+    if (scrollTop > 800) {
       setBackToTop(true);
     } else {
       setBackToTop(false);

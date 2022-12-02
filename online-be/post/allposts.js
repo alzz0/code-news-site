@@ -8,7 +8,7 @@ module.exports.handler = async (event) => {
 
   try {
     let params = {
-      TableName: "postsTable2",
+      TableName: "postsTable",
       Limit: 28,
       FilterExpression: "#uploadDate > :uploadDate",
       ExpressionAttributeValues: { ":uploadDate": 1 },

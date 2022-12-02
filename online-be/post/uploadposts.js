@@ -48,7 +48,7 @@ module.exports.handler = async (event) => {
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
-        TableName: "postsTable2",
+        TableName: "postsTable",
       };
 
       await dynamodb.putItem(params).promise();
