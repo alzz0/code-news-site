@@ -12,17 +12,25 @@ import { RiAccountPinBoxLine } from "react-icons/ri";
 
 const Sidebar = () => {
   const [highlighted, setHighlighted] = useState("");
+  const [toggleBack, setToggleBack] = useState(false);
+  const [previousState, setPreviousState] = useState([]);
   const { setPosts } = useContext(PostsContext);
   const { auth } = useContext(AuthContext);
   console.log(auth);
 
   const handleSort = (sortType) => {
     setHighlighted(sortType);
-    setPosts((prevState) => {
-      let sortedPosts = [...prevState];
-      let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
-      return state;
-    });
+    if (toggleBack) {
+      setPosts(previousState);
+    } else {
+      setPosts((prevState) => {
+        let sortedPosts = [...prevState];
+        setPreviousState(prevState);
+        let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
+        return state;
+      });
+    }
+    setToggleBack(!toggleBack);
   };
 
   return (
@@ -47,7 +55,9 @@ const Sidebar = () => {
               size={30}
               style={{
                 color:
-                  highlighted === "uploadDate" ? "rgb(104, 132, 148)" : "#fff",
+                  highlighted === "uploadDate" && toggleBack
+                    ? "rgb(104, 132, 148)"
+                    : "#fff",
               }}
             />
             <span>Most Recent</span>

@@ -35,7 +35,7 @@ const fetchImage = (imageUrl) => {
       res.on("data", (chunk) => {
         rawData.push(chunk);
       });
-      console.log("rawData", rawData);
+
       res.on("end", () => {
         try {
           let buffer = Buffer.concat(rawData);
@@ -50,23 +50,6 @@ const fetchImage = (imageUrl) => {
     });
   });
 };
-
-// const fetchDynamodbArr = async () => {
-//   const params = {
-//     TableName: "imagebucket-alimansour",
-//     Limit: 50,
-//   };
-
-//   const scanResults = [];
-//   var items;
-//   do {
-//     items = await documentClient.scan(params).promise();
-//     items.Items.forEach((item) => scanResults.push(item));
-//     params.ExclusiveStartKey = items.LastEvaluatedKey;
-//   } while (typeof items.LastEvaluatedKey !== "undefined");
-
-//   return scanResults;
-// };
 
 const generateId = () => {
   // Public Domain/MIT
@@ -92,8 +75,6 @@ const generateId = () => {
 };
 module.exports.handler = async () => {
   const array = await fetchNews();
-  // const dynamodbArr = await fetchDynamodbArr();
-  //console.log("dynamodbArr", dynamodbArr);
 
   for (let i = 0; i < array.results.length; i++) {
     let post = array.results[i];
@@ -101,7 +82,6 @@ module.exports.handler = async () => {
 
     if (post.image_url) {
       let image = await fetchImage(post.image_url);
-      console.log("image", image);
       const data = {
         Key: id,
         Bucket: "imagebucket-alimansour",
@@ -109,7 +89,6 @@ module.exports.handler = async () => {
         ContentType: "image/png",
         ContentEncoding: "base64",
       };
-      console.log("data", data);
 
       const selectedTags = ["javascript"];
       const readTime = "1";
