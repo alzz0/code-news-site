@@ -14,7 +14,7 @@ const Sidebar = () => {
   const [highlighted, setHighlighted] = useState("");
   const [toggleBack, setToggleBack] = useState(false);
   const [previousState, setPreviousState] = useState([]);
-  const { setPosts } = useContext(PostsContext);
+  const { posts, setPosts } = useContext(PostsContext);
   const { auth } = useContext(AuthContext);
   console.log(auth);
 
@@ -23,9 +23,9 @@ const Sidebar = () => {
     if (toggleBack) {
       setPosts(previousState);
     } else {
+      setPreviousState(posts);
       setPosts((prevState) => {
         let sortedPosts = [...prevState];
-        setPreviousState(prevState);
         let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
         return state;
       });
