@@ -62,11 +62,11 @@ functions:
           method: post
           cors: true
 
-  uploadPosts:
-    handler: post/uploadposts.handler
+  uploadCommunityPost:
+    handler: post/uploadcommunitypost.handler
     events:
       - http:
-          path: post/uploadposts
+          path: post/communitypost
           method: post
           cors: true
 
@@ -75,6 +75,14 @@ functions:
     events:
       - http:
           path: posts
+          method: post
+          cors: true
+
+  getCommunityPosts:
+    handler: post/getcommunityposts.handler
+    events:
+      - http:
+          path: communityposts
           method: post
           cors: true
 
@@ -144,6 +152,24 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: postsTable
+        AttributeDefinitions:
+          - AttributeName: url
+            AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+        KeySchema:
+          - AttributeName: url
+            KeyType: HASH
+          - AttributeName: title
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    communityPostsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: communityPostsTable
         AttributeDefinitions:
           - AttributeName: url
             AttributeType: S
