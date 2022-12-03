@@ -3,12 +3,14 @@ import axios from "axios";
 import config from "../../config";
 import { PostsContext } from "./PostsContext";
 
-function useFetch(page) {
+function useFetch(page, urlsuffix) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [lastPage, setLastPage] = useState(false);
   const [list, setList] = useState([]);
   const [lastItem, setLastItem] = useState("");
+  // const url = `${config.apiGateway.URL}${urlsuffix}`;
+  // const url = `${config.apiGateway.URL}communityposts`;
   const url = `${config.apiGateway.URL}posts`;
   const { setPosts } = useContext(PostsContext);
 

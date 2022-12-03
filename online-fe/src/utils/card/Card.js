@@ -12,8 +12,8 @@ export const Card = ({ items }) => {
       >
         <div style={styles.detailsContainer}>
           <span style={styles.title}>
-            {post.title.length > 50
-              ? `${post.title.slice(0, 50)} ... `
+            {post.title.length > 80
+              ? `${post.title.slice(0, 80)} ... `
               : post.title}
           </span>
         </div>
@@ -57,7 +57,7 @@ const styles = {
     padding: "10px",
   },
   title: {
-    fontSize: "23px",
+    fontSize: "20px",
     textDecoration: "none",
   },
   imageContainer: {

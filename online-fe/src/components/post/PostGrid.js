@@ -6,7 +6,7 @@ import "./postGrid.css";
 
 const PostGrid = () => {
   const [page, setPage] = useState(1);
-  const { loading, error, list, lastPage } = useFetch(page);
+  const { loading, error, list, lastPage } = useFetch(page, "posts");
   const { posts } = useContext(PostsContext);
   const [backToTop, setBackToTop] = useState(false);
 

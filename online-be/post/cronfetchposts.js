@@ -1,10 +1,17 @@
+//TECHNOLOGY NEWS
+
 const AWS = require("aws-sdk");
 const https = require("https");
 const dynamodb = new AWS.DynamoDB();
 const s3Bucket = new AWS.S3();
 
-const url =
-  "https://newsdata.io/api/1/news?apikey=pub_140888f82804297aefb0dc55784b085daa3d8&language=en&category=technology&page=1";
+const api = "https://newsdata.io/api/1/news";
+const api_key = "pub_140888f82804297aefb0dc55784b085daa3d8";
+const language = "en";
+const category = "technology";
+const page = "1";
+
+const url = `${api}?apikey=${api_key}&language=${language}&category=${category}&page=${page}`;
 
 const fetchNews = () => {
   return new Promise((resolve, reject) => {
@@ -90,7 +97,7 @@ module.exports.handler = async () => {
         ContentEncoding: "base64",
       };
 
-      const selectedTags = ["javascript"];
+      const selectedTags = [category];
       const readTime = "1";
       const params = {
         Item: {
@@ -102,6 +109,7 @@ module.exports.handler = async () => {
           upVote: { S: "0" },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
+          description: { S: post.description },
         },
         TableName: "postsTable",
         ConditionExpression: "attribute_not_exists(#url)",

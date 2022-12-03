@@ -13,12 +13,22 @@ import { RiAccountPinBoxLine } from "react-icons/ri";
 const Sidebar = () => {
   const [highlighted, setHighlighted] = useState("");
   const [toggleBack, setToggleBack] = useState(false);
+  const [toggleBackColor, setToggleBackColor] = useState(false);
   const [previousState, setPreviousState] = useState([]);
   const { posts, setPosts } = useContext(PostsContext);
   const { auth } = useContext(AuthContext);
-  console.log(auth);
+  const username = localStorage.getItem("username");
+  console.log(username);
 
   const handleSort = (sortType) => {
+    console.log(sortType);
+    console.log(highlighted);
+    if (sortType !== highlighted) {
+      console.log("set true");
+      setToggleBackColor(true);
+    } else {
+      setToggleBackColor(!toggleBack);
+    }
     setHighlighted(sortType);
     if (toggleBack) {
       setPosts(previousState);
@@ -40,10 +50,7 @@ const Sidebar = () => {
           <li className="sidebar-header">
             <RiAccountPinBoxLine size={30} />
             <span style={{ maxWidth: "180px" }}>
-              {auth?.Username.slice(0, auth.Username.indexOf("@")).slice(
-                0,
-                19
-              ) || "Username"}
+              {(username && username) || "Username"}
             </span>
           </li>
 
@@ -55,7 +62,7 @@ const Sidebar = () => {
               size={30}
               style={{
                 color:
-                  highlighted === "uploadDate" && toggleBack
+                  highlighted === "uploadDate" && toggleBackColor
                     ? "rgb(104, 132, 148)"
                     : "#fff",
               }}
@@ -66,7 +73,10 @@ const Sidebar = () => {
             <AiOutlineArrowUp
               size={30}
               style={{
-                color: highlighted === "upVote" ? "rgb(104, 132, 148)" : "#fff",
+                color:
+                  highlighted === "upVote" && toggleBackColor
+                    ? "rgb(104, 132, 148)"
+                    : "#fff",
               }}
             />
             <span>Most Upvoted</span>

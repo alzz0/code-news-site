@@ -15,7 +15,7 @@ export default function Navbar() {
             <img src={logo192} alt="" width={50} />
           </NavLink>
         </li>
-        {!auth?.Username && (
+        {!localStorage.getItem("username") && (
           <li style={styles.navItems}>
             <NavLink to="/signin">Sign In</NavLink>
           </li>

@@ -11,7 +11,9 @@ const CreatePost = () => {
   const [file, setFile] = useState([]);
   const [tags, setTags] = useState([]);
   const [readTime, setReadTime] = useState("");
-  const id = uuidv4();
+
+  // const urlApi = `${config.apiGateway.URL}post/communitypost`;
+  const urlApi = `${config.apiGateway.URL}post/upload`;
 
   const options = [
     { value: "blockchain", label: "blockchain" },
@@ -27,6 +29,7 @@ const CreatePost = () => {
     { value: "python", label: "Python" },
     { value: "datascience", label: "Data Science" },
     { value: "hardware", label: "Hardware" },
+    { value: "ai", label: "Artificial Intelligence" },
   ];
 
   const handleFileChange = async (e) => {
@@ -47,10 +50,9 @@ const CreatePost = () => {
   };
 
   const handleSubmit = () => {
-    console.log("handle submit");
+    const id = uuidv4();
     if (!url || !title || !file || !tags || !readTime) return;
     const selectedTags = tags.map((tag) => tag.value);
-    const urlApi = `${config.apiGateway.URL}post/upload`;
     const data = {
       url,
       title,
@@ -60,16 +62,12 @@ const CreatePost = () => {
       readTime,
     };
 
-    // delete, for populating db only
-    // for (let i = 0; i < 20; i++) {
-    //   data.id = uuidv4().toString();
     axios
       .post(urlApi, data)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err));
-    //}
   };
   const colourStyles = {
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {

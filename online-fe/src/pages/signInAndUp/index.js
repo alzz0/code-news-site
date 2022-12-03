@@ -109,6 +109,10 @@ const SignIn = () => {
           "expiresIn",
           JSON.stringify(res.data.AuthenticationResult.ExpiresIn)
         );
+        localStorage.setItem(
+          "username",
+          res.data.Username.slice(0, res.data.Username.indexOf("@"))
+        );
         navigate("/");
       })
       .catch((err) => {
