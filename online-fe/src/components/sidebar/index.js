@@ -48,6 +48,14 @@ const Sidebar = () => {
           lastPage: false,
           loading: false,
         });
+      } else {
+        setSortType({
+          type: sortVal,
+          page: 1,
+          lastItem: res.data.LastEvaluatedKey,
+          lastPage: true,
+          loading: false,
+        });
       }
       setPosts([...items]);
     } catch (error) {

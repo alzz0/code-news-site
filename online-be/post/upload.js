@@ -51,7 +51,7 @@ module.exports.handler = async (event) => {
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
-        TableName: "1",
+        TableName: "postsTable",
       };
       console.log("params:", params);
 
