@@ -9,7 +9,7 @@ const api = "https://newsdata.io/api/1/news";
 const api_key = "pub_140888f82804297aefb0dc55784b085daa3d8";
 const language = "en";
 const category = "technology";
-const page = "1";
+const page = "21";
 
 const url = `${api}?apikey=${api_key}&language=${language}&category=${category}&page=${page}`;
 

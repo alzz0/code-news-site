@@ -47,11 +47,13 @@ module.exports.handler = async (event) => {
           title: { S: title },
           image: { S: `https://imagebucket-alimansour.s3.amazonaws.com/${id}` },
           uploadDate: { N: new Date().getTime().toString() },
-          upVote: { S: "0" },
+          upVote: { N: "0" },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
         TableName: "postsTable",
+        ConditionExpression: "attribute_not_exists(#url)",
+        ExpressionAttributeNames: { "#url": url },
       };
       console.log("params:", params);
 
