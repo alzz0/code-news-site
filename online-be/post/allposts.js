@@ -9,16 +9,19 @@ module.exports.handler = async (event) => {
   try {
     let params = {
       TableName: "postsTable",
+      IndexName: parsedEvent.secondaryIndex,
+      KeyConditionExpression: "#type = :type",
+      ExpressionAttributeNames: { "#type": "type" },
+      ExpressionAttributeValues: { ":type": "posts" },
+      ScanIndexForward: false,
       Limit: 28,
-      FilterExpression: "#uploadDate > :uploadDate",
-      ExpressionAttributeValues: { ":uploadDate": 1 },
-      ExpressionAttributeNames: { "#uploadDate": "uploadDate" },
     };
 
     if (parsedEvent.lastItem) {
       params.ExclusiveStartKey = parsedEvent.lastItem;
     }
-    const data = await dynamodb.scan(params).promise();
+    const data = await dynamodb.query(params).promise();
+    console.log("data", data);
 
     const lastEvaluatedKey = data.LastEvaluatedKey;
 

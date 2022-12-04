@@ -4,26 +4,36 @@ import CreatePost from "../../components/post/CreatePost";
 import Search from "../../components/search/Search";
 import "./dashboardSearch.css";
 import { PostsContext } from "../../hooks/posts/PostsContext";
+import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 import { useState } from "react";
+
 const DashBoardLayout = () => {
   const [posts, setPosts] = useState([]);
+  const [sortType, setSortType] = useState({
+    type: "uploadDateLSI",
+    page: 1,
+    lastItem: "",
+    lastpage: false,
+  });
   return (
-    <PostsContext.Provider value={{ posts, setPosts }}>
-      <>
-        <nav className="dashboard-search">
-          <Search />
-        </nav>
-        <main style={styles.mainContainer}>
-          <aside style={styles.sidebar}>
-            <Sidebar />
-          </aside>
-          <main style={styles.gridContainer}>
-            {/* <CreatePost /> */}
-            <PostGrid />
+    <SortTypeContext.Provider value={{ sortType, setSortType }}>
+      <PostsContext.Provider value={{ posts, setPosts }}>
+        <>
+          <nav className="dashboard-search">
+            <Search />
+          </nav>
+          <main style={styles.mainContainer}>
+            <aside style={styles.sidebar}>
+              <Sidebar />
+            </aside>
+            <main style={styles.gridContainer}>
+              {/* <CreatePost /> */}
+              <PostGrid />
+            </main>
           </main>
-        </main>
-      </>
-    </PostsContext.Provider>
+        </>
+      </PostsContext.Provider>
+    </SortTypeContext.Provider>
   );
 };
 const styles = {

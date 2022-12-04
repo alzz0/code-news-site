@@ -98,15 +98,16 @@ module.exports.handler = async () => {
       };
 
       const selectedTags = [category];
-      const readTime = "1";
+      const readTime = "0";
       const params = {
         Item: {
-          url: { S: post.link },
+          type: { S: "posts" },
+          url: { S: post.link + Math.random() },
           title: { S: post.title },
           id: { S: id },
           image: { S: `https://imagebucket-alimansour.s3.amazonaws.com/${id}` },
           uploadDate: { N: new Date().getTime().toString() },
-          upVote: { S: "0" },
+          upVotes: { N: Math.random().toString() },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
           description: { S: post.description },

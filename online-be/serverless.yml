@@ -153,15 +153,36 @@ resources:
       Properties:
         TableName: postsTable
         AttributeDefinitions:
+          - AttributeName: type
+            AttributeType: S
           - AttributeName: url
             AttributeType: S
-          - AttributeName: title
-            AttributeType: S
+          - AttributeName: uploadDate
+            AttributeType: N
+          - AttributeName: upVotes
+            AttributeType: N
         KeySchema:
-          - AttributeName: url
+          - AttributeName: type
             KeyType: HASH
-          - AttributeName: title
+          - AttributeName: url
             KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: uploadDateLSI
+            KeySchema:
+              - AttributeName: type
+                KeyType: HASH
+              - AttributeName: uploadDate
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: upVoteLSI
+            KeySchema:
+              - AttributeName: type
+                KeyType: HASH
+              - AttributeName: upVotes
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./sidebar.css";
 import { PostsContext } from "../../hooks/posts/PostsContext";
-import { AuthContext } from "../../hooks/AuthContext";
 import { useContext } from "react";
 import logo192 from "../../logo.svg";
 import { AiOutlineArrowUp, AiOutlineEye } from "react-icons/ai";
@@ -9,38 +8,82 @@ import { BiTimeFive } from "react-icons/bi";
 import { GiDiscussion } from "react-icons/gi";
 import { BsFillBookmarkFill, BsToggles } from "react-icons/bs";
 import { RiAccountPinBoxLine } from "react-icons/ri";
+import axios from "axios";
+import config from "../../config";
+import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 
 const Sidebar = () => {
   const [highlighted, setHighlighted] = useState("");
-  const [toggleBack, setToggleBack] = useState(false);
+  // const [toggleBack, setToggleBack] = useState(false);
   const [toggleBackColor, setToggleBackColor] = useState(false);
-  const [previousState, setPreviousState] = useState([]);
-  const { posts, setPosts } = useContext(PostsContext);
-  const { auth } = useContext(AuthContext);
+  // const [previousState, setPreviousState] = useState([]);
+  const { setSortType } = useContext(SortTypeContext);
+  const { setPosts } = useContext(PostsContext);
+
   const username = localStorage.getItem("username");
-  console.log(username);
+  const url = `${config.apiGateway.URL}posts`;
+
+  const fetchData = async (sortVal) => {
+    setSortType({
+      type: sortVal,
+      page: 1,
+      lastItem: "",
+      lastPage: false,
+      loading: true,
+    });
+    console.log(sortVal);
+    const params = {
+      page: 1,
+      lastItem: "",
+      secondaryIndex: sortVal,
+    };
+    try {
+      const res = await axios.post(url, params);
+      const items = res.data.Items;
+
+      if (res.data.LastEvaluatedKey) {
+        setSortType({
+          type: sortVal,
+          page: 1,
+          lastItem: res.data.LastEvaluatedKey,
+          lastPage: false,
+          loading: false,
+        });
+      }
+      setPosts([...items]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSort = (sortType) => {
-    console.log(sortType);
-    console.log(highlighted);
-    if (sortType !== highlighted) {
-      console.log("set true");
-      setToggleBackColor(true);
-    } else {
-      setToggleBackColor(!toggleBack);
-    }
-    setHighlighted(sortType);
-    if (toggleBack) {
-      setPosts(previousState);
-    } else {
-      setPreviousState(posts);
-      setPosts((prevState) => {
-        let sortedPosts = [...prevState];
-        let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
-        return state;
-      });
-    }
-    setToggleBack(!toggleBack);
+    fetchData(sortType);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+      /* you can also use 'auto' behaviour
+         in place of 'smooth' */
+    });
+    // console.log(sortType);
+    // console.log(highlighted);
+    // if (sortType !== highlighted) {
+    //   console.log("set true");
+    //   setToggleBackColor(true);
+    // } else {
+    //   setToggleBackColor(!toggleBack);
+    // }
+    // setHighlighted(sortType);
+    // if (toggleBack) {
+    //   setPosts(previousState);
+    // } else {
+    //   setPreviousState(posts);
+    //   // setPosts((prevState) => {
+    //   //   let sortedPosts = [...prevState];
+    //   //   let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
+    //   //   return state;
+    //   // });
+    // }
+    // setToggleBack(!toggleBack);
   };
 
   return (
@@ -55,7 +98,7 @@ const Sidebar = () => {
           </li>
 
           <li
-            onClick={() => handleSort("uploadDate")}
+            onClick={() => handleSort("uploadDateLSI")}
             className="sidebar-labels"
           >
             <BiTimeFive
@@ -69,7 +112,10 @@ const Sidebar = () => {
             />
             <span>Most Recent</span>
           </li>
-          <li className={"sidebar-labels"} onClick={() => handleSort("upVote")}>
+          <li
+            className={"sidebar-labels"}
+            onClick={() => handleSort("upVoteLSI")}
+          >
             <AiOutlineArrowUp
               size={30}
               style={{
