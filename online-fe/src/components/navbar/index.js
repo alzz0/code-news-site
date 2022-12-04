@@ -1,12 +1,8 @@
 import React from "react";
-import { AuthContext } from "../../hooks/AuthContext";
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import logo192 from "../../logo.svg";
 export default function Navbar() {
-  const { auth } = useContext(AuthContext);
-
   return (
     <div style={styles.navContainer}>
       <ul style={styles.navUl}>

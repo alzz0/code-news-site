@@ -42,6 +42,7 @@ module.exports.handler = async (event) => {
     try {
       const params = {
         Item: {
+          type: { S: "posts" },
           id: { S: id.toString() },
           url: { S: url },
           title: { S: title },

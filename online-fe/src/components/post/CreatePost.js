@@ -12,7 +12,6 @@ const CreatePost = () => {
   const [tags, setTags] = useState([]);
   const [readTime, setReadTime] = useState("");
 
-  // const urlApi = `${config.apiGateway.URL}post/communitypost`;
   const urlApi = `${config.apiGateway.URL}post/upload`;
 
   const options = [

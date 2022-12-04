@@ -12,6 +12,7 @@ const Search = () => {
         type={"text"}
         placeholder="Search"
         handleChange={handleChange}
+        value={searchValue}
       />
     </div>
   );

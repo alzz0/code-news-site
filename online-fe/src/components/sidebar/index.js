@@ -13,13 +13,8 @@ import config from "../../config";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 
 const Sidebar = () => {
-  const [highlighted, setHighlighted] = useState("");
-  // const [toggleBack, setToggleBack] = useState(false);
-  const [toggleBackColor, setToggleBackColor] = useState(false);
-  // const [previousState, setPreviousState] = useState([]);
   const { setSortType } = useContext(SortTypeContext);
   const { setPosts } = useContext(PostsContext);
-
   const username = localStorage.getItem("username");
   const url = `${config.apiGateway.URL}posts`;
 
@@ -68,29 +63,7 @@ const Sidebar = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-      /* you can also use 'auto' behaviour
-         in place of 'smooth' */
     });
-    // console.log(sortType);
-    // console.log(highlighted);
-    // if (sortType !== highlighted) {
-    //   console.log("set true");
-    //   setToggleBackColor(true);
-    // } else {
-    //   setToggleBackColor(!toggleBack);
-    // }
-    // setHighlighted(sortType);
-    // if (toggleBack) {
-    //   setPosts(previousState);
-    // } else {
-    //   setPreviousState(posts);
-    //   // setPosts((prevState) => {
-    //   //   let sortedPosts = [...prevState];
-    //   //   let state = sortedPosts.sort((a, b) => b[sortType] - a[sortType]);
-    //   //   return state;
-    //   // });
-    // }
-    // setToggleBack(!toggleBack);
   };
 
   return (
@@ -108,30 +81,14 @@ const Sidebar = () => {
             onClick={() => handleSort("uploadDateLSI")}
             className="sidebar-labels"
           >
-            <BiTimeFive
-              size={30}
-              style={{
-                color:
-                  highlighted === "uploadDate" && toggleBackColor
-                    ? "rgb(104, 132, 148)"
-                    : "#fff",
-              }}
-            />
+            <BiTimeFive size={30} style={{}} />
             <span>Most Recent</span>
           </li>
           <li
             className={"sidebar-labels"}
             onClick={() => handleSort("upVoteLSI")}
           >
-            <AiOutlineArrowUp
-              size={30}
-              style={{
-                color:
-                  highlighted === "upVote" && toggleBackColor
-                    ? "rgb(104, 132, 148)"
-                    : "#fff",
-              }}
-            />
+            <AiOutlineArrowUp size={30} style={{}} />
             <span>Most Upvoted</span>
           </li>
           <li className="sidebar-labels">

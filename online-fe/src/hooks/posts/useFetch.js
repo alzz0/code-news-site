@@ -9,8 +9,6 @@ function useFetch(page) {
 
   const { sortType, setSortType } = useContext(SortTypeContext);
   const { lastPage, lastItem, type } = sortType;
-  // const url = `${config.apiGateway.URL}${urlsuffix}`;
-  // const url = `${config.apiGateway.URL}communityposts`;
   const url = `${config.apiGateway.URL}posts`;
   const { setPosts } = useContext(PostsContext);
 
