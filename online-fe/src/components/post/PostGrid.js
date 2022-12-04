@@ -19,6 +19,7 @@ const PostGrid = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight) {
+      console.log(lastPage);
       if (lastPage) return;
 
       setSortType((prevState) => ({

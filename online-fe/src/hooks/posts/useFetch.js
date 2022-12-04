@@ -23,6 +23,7 @@ function useFetch(page) {
       if (lastPage) return;
       try {
         const res = await axios.post(url, params);
+        console.log(res);
         const items = res.data.Items;
 
         if (res.data.LastEvaluatedKey) {

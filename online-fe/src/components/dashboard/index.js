@@ -27,7 +27,7 @@ const DashBoardLayout = () => {
               <Sidebar />
             </aside>
             <main style={styles.gridContainer}>
-              <CreatePost />
+              {/* <CreatePost /> */}
               <PostGrid />
             </main>
           </main>

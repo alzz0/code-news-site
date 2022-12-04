@@ -109,7 +109,6 @@ module.exports.handler = async () => {
           title: { S: post.title },
           id: { S: id },
           image: { S: `https://imagebucket-alimansour.s3.amazonaws.com/${id}` },
-          // uploadDate: { N: new Date().getTime().toString() },
           uploadDate: { N: dateInMiliseconds },
           upVotes: { N: "0" },
           tags: { SS: selectedTags },

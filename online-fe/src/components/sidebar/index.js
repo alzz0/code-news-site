@@ -34,8 +34,9 @@ const Sidebar = () => {
     try {
       const res = await axios.post(url, params);
       const items = res.data.Items;
-
+      console.log(res);
       if (res.data.LastEvaluatedKey) {
+        console.log(1);
         setSortType({
           type: sortVal,
           page: 1,
@@ -44,6 +45,7 @@ const Sidebar = () => {
           loading: false,
         });
       } else {
+        console.log(2);
         setSortType({
           type: sortVal,
           page: 1,
