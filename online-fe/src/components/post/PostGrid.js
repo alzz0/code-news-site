@@ -11,7 +11,6 @@ const PostGrid = () => {
 
   const { loading, error, list } = useFetch(page);
   const { posts } = useContext(PostsContext);
-  console.log("scroll", lastPage);
 
   const [backToTop, setBackToTop] = useState(false);
 
@@ -20,7 +19,6 @@ const PostGrid = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight) {
-      console.log("lastpage");
       if (lastPage) return;
 
       setSortType((prevState) => ({
@@ -65,7 +63,6 @@ const PostGrid = () => {
   }, []);
 
   useEffect(() => {
-    console.log("🔥page", page);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [page]);

@@ -31,7 +31,6 @@ const Sidebar = () => {
       lastPage: false,
       loading: true,
     });
-    console.log(sortVal);
     const params = {
       page: 1,
       lastItem: "",
