@@ -3,8 +3,8 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async (event) => {
   console.log("event body::", event.body);
-  console.log("event::", event.body.lastItem);
   const parsedEvent = JSON.parse(event.body);
+  console.log("event starting key ::", parsedEvent.lastItem);
 
   try {
     let params = {
