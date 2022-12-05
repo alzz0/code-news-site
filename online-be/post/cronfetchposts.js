@@ -4,12 +4,13 @@ const AWS = require("aws-sdk");
 const https = require("https");
 const dynamodb = new AWS.DynamoDB();
 const s3Bucket = new AWS.S3();
+const uuid = require("uuid");
 
 const api = "https://newsdata.io/api/1/news";
 const api_key = "pub_140888f82804297aefb0dc55784b085daa3d8";
 const language = "en";
 const category = "technology";
-const page = "21";
+const page = "1";
 
 const url = `${api}?apikey=${api_key}&language=${language}&category=${category}&page=${page}`;
 
@@ -58,34 +59,12 @@ const fetchImage = (imageUrl) => {
   });
 };
 
-const generateId = () => {
-  // Public Domain/MIT
-  var d = new Date().getTime(); //Timestamp
-  var d2 =
-    (typeof performance !== "undefined" &&
-      performance.now &&
-      performance.now() * 1000) ||
-    0; //Time in microseconds since page-load or 0 if unsupported
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16; //random number between 0 and 16
-    if (d > 0) {
-      //Use timestamp until depleted
-      r = (d + r) % 16 | 0;
-      d = Math.floor(d / 16);
-    } else {
-      //Use microseconds since page-load if supported
-      r = (d2 + r) % 16 | 0;
-      d2 = Math.floor(d2 / 16);
-    }
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
-};
 module.exports.handler = async () => {
   const array = await fetchNews();
 
   for (let i = 0; i < array.results.length; i++) {
     let post = array.results[i];
-    const id = generateId().toString();
+    const id = uuid.v1();
 
     if (post.image_url) {
       let image = await fetchImage(post.image_url);
@@ -113,9 +92,10 @@ module.exports.handler = async () => {
           upVotes: { N: "0" },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
+          recommended: { N: "0" },
           description: { S: post.description },
         },
-        TableName: "postsTable",
+        TableName: "postsTable1",
         ConditionExpression: "attribute_not_exists(#url)",
         ExpressionAttributeNames: { "#url": post.link },
       };

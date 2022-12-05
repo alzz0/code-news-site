@@ -7,7 +7,7 @@ import "./postGrid.css";
 
 const PostGrid = () => {
   const { sortType, setSortType } = useContext(SortTypeContext);
-  const { page, lastPage } = sortType;
+  const { page, lastPage, lastItem } = sortType;
 
   const { loading, error, list } = useFetch(page);
   const { posts } = useContext(PostsContext);
@@ -19,8 +19,11 @@ const PostGrid = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight) {
+      console.log(sortType);
       console.log(lastPage);
-      if (lastPage) return;
+      console.log(lastItem);
+      if (lastPage && !lastItem) return;
+      //!lastItem
 
       setSortType((prevState) => ({
         type: prevState.type,
@@ -33,7 +36,7 @@ const PostGrid = () => {
   };
   const scrollToTop = () => {
     setBackToTop(false);
-
+    console.log(sortType);
     setSortType((prevState) => ({
       type: prevState.type,
       page: 1,
@@ -45,6 +48,7 @@ const PostGrid = () => {
       top: 0,
       behavior: "smooth",
     });
+    console.log(sortType);
   };
 
   const showBackUpBtn = () => {

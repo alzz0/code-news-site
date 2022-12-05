@@ -3,29 +3,35 @@ import "./sidebar.css";
 import { PostsContext } from "../../hooks/posts/PostsContext";
 import { useContext } from "react";
 import logo192 from "../../logo.svg";
-import { AiOutlineArrowUp, AiOutlineEye } from "react-icons/ai";
+import {
+  AiOutlineFire,
+  AiOutlineEye,
+  AiFillFire,
+  AiFillEye,
+} from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
-import { GiDiscussion } from "react-icons/gi";
-import { BsFillBookmarkFill, BsToggles } from "react-icons/bs";
+import { BsBookmark, BsFillBookmarkFill, BsToggles } from "react-icons/bs";
 import { RiAccountPinBoxLine } from "react-icons/ri";
+import { MdAccessTimeFilled } from "react-icons/md";
 import axios from "axios";
 import config from "../../config";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 
 const Sidebar = () => {
+  const [selectedLabel, setSelecetedLabel] = useState("recent");
   const { setSortType } = useContext(SortTypeContext);
   const { setPosts } = useContext(PostsContext);
   const username = localStorage.getItem("username");
   const url = `${config.apiGateway.URL}posts`;
 
   const fetchData = async (sortVal) => {
-    setSortType({
+    setSortType((prevState) => ({
       type: sortVal,
       page: 1,
-      lastItem: "",
+      lastItem: prevState.lastItem,
       lastPage: false,
       loading: true,
-    });
+    }));
     const params = {
       page: 1,
       lastItem: "",
@@ -60,12 +66,16 @@ const Sidebar = () => {
     }
   };
 
-  const handleSort = (sortType) => {
+  const handleSort = (sortType, label) => {
+    setSelecetedLabel(label);
     fetchData(sortType);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+  };
+  const handleClick = (label) => {
+    setSelecetedLabel(label);
   };
 
   return (
@@ -73,49 +83,84 @@ const Sidebar = () => {
       <nav>
         <ul className="sidebar-main">
           <li className="sidebar-header">
-            <RiAccountPinBoxLine size={30} />
-            <span style={{ maxWidth: "180px" }}>
+            <span className="label-icon">
+              <RiAccountPinBoxLine size={30} />
+            </span>
+            <span className="label-text">
               {(username && username) || "Username"}
             </span>
           </li>
 
           <li
-            onClick={() => handleSort("uploadDateLSI")}
+            onClick={() => handleSort("uploadDateLSI", "recent")}
             className="sidebar-labels"
           >
-            <BiTimeFive size={30} style={{}} />
-            <span>Most Recent</span>
+            <span className="label-icon">
+              {selectedLabel === "recent" ? (
+                <MdAccessTimeFilled size={30} />
+              ) : (
+                <BiTimeFive size={30} style={{}} />
+              )}
+            </span>
+
+            <span className="label-text">Most Recent</span>
           </li>
-          <li
+          {/* <li
             className={"sidebar-labels"}
             onClick={() => handleSort("upVoteLSI")}
           >
             <AiOutlineArrowUp size={30} style={{}} />
-            <span>Most Upvoted</span>
-          </li>
-          <li className="sidebar-labels">
-            <GiDiscussion size={30} />
-            <span>Best discussions</span>
+            <span className="label-text">Most Upvoted</span>
+          </li> */}
+          <li
+            className="sidebar-labels"
+            onClick={() => handleSort("recommendedLSI", "recommended")}
+          >
+            <span className="label-icon">
+              {selectedLabel === "recommended" ? (
+                <AiFillFire size={30} />
+              ) : (
+                <AiOutlineFire size={30} />
+              )}
+            </span>
+            <span className="label-text">Recommended</span>
           </li>
 
-          <li className="sidebar-labels">
-            <BsFillBookmarkFill size={30} />
-            <span>Bookmarks</span>
+          <li
+            className="sidebar-labels"
+            onClick={() => handleClick("bookmark")}
+          >
+            <span className="label-icon">
+              {selectedLabel === "bookmark" ? (
+                <BsFillBookmarkFill size={30} />
+              ) : (
+                <BsBookmark size={30} />
+              )}
+            </span>
+            <span className="label-text">Bookmarks</span>
+          </li>
+          <li className="sidebar-labels" onClick={() => handleClick("history")}>
+            <span className="label-icon">
+              {selectedLabel === "history" ? (
+                <AiFillEye size={30} />
+              ) : (
+                <AiOutlineEye size={30} />
+              )}
+            </span>
+            <span className="label-text">Reading history</span>
           </li>
           <li className="sidebar-labels">
-            <AiOutlineEye size={30} />
-            <span>Reading history</span>
-          </li>
-          <li className="sidebar-labels">
-            <BsToggles size={30} />
-            <span>Toggle theme</span>
+            <span className="label-icon">
+              <BsToggles size={30} />
+            </span>
+            <span className="label-text">Toggle theme</span>
           </li>
         </ul>
       </nav>
       <div className="empty-space"></div>
       <nav className="bottom-nav">
         <ul>
-          <li>
+          <li onClick={() => handleClick("settings")}>
             <img src={logo192} width={45} alt="" />
             <span>Settings</span>{" "}
           </li>

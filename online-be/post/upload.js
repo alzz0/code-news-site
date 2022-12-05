@@ -9,7 +9,10 @@ module.exports.handler = async (event) => {
       return sendResponse(400, { message: "Invalid Input" });
     }
 
-    const { url, id, title, selectedTags, readTime } = JSON.parse(event.body);
+    const { url, id, title, selectedTags, readTime, recommended } = JSON.parse(
+      event.body
+    );
+
     const parsedBody = JSON.parse(event.body);
     const base64File = parsedBody.file;
 
@@ -48,11 +51,12 @@ module.exports.handler = async (event) => {
           title: { S: title },
           image: { S: `https://imagebucket-alimansour.s3.amazonaws.com/${id}` },
           uploadDate: { N: new Date().getTime().toString() },
-          upVote: { N: "0" },
+          upVote: { N: "1" },
+          recommended: { N: recommended },
           tags: { SS: selectedTags },
           readTime: { S: readTime },
         },
-        TableName: "postsTable",
+        TableName: "postsTable1",
         ConditionExpression: "attribute_not_exists(#url)",
         ExpressionAttributeNames: { "#url": url },
       };

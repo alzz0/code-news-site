@@ -15,13 +15,14 @@ const DashBoardLayout = () => {
     lastItem: "",
     lastpage: false,
   });
+
   return (
     <SortTypeContext.Provider value={{ sortType, setSortType }}>
       <PostsContext.Provider value={{ posts, setPosts }}>
         <>
-          <nav className="dashboard-search">
+          {/* <nav className="dashboard-search">
             <Search />
-          </nav>
+          </nav> */}
           <main style={styles.mainContainer}>
             <aside style={styles.sidebar}>
               <Sidebar />

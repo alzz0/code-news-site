@@ -11,6 +11,7 @@ const CreatePost = () => {
   const [file, setFile] = useState([]);
   const [tags, setTags] = useState([]);
   const [readTime, setReadTime] = useState("");
+  const [recommended, setRecommended] = useState(false);
 
   const urlApi = `${config.apiGateway.URL}post/upload`;
 
@@ -50,7 +51,9 @@ const CreatePost = () => {
 
   const handleSubmit = () => {
     const id = uuidv4();
-    if (!url || !title || !file || !tags || !readTime) return;
+
+    if (!url || !title || !file || !tags || !readTime || !recommended) return;
+
     const selectedTags = tags.map((tag) => tag.value);
     const data = {
       url,
@@ -59,6 +62,7 @@ const CreatePost = () => {
       id,
       selectedTags,
       readTime,
+      recommended: new Date().getTime().toString(),
     };
 
     axios
@@ -100,6 +104,13 @@ const CreatePost = () => {
         name="readTime"
         required={true}
         handleChange={(e) => setReadTime(e.target.value)}
+      />
+      <Input
+        placeholder="Recommended Value"
+        type="checkbox"
+        name="recommended"
+        required={true}
+        handleChange={(e) => setRecommended((prevState) => !prevState)}
       />
       <Select
         onChange={setTags}

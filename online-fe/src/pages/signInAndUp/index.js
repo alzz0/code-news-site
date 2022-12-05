@@ -17,7 +17,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const submitForm = (e) => {
@@ -27,6 +26,7 @@ const SignUp = () => {
       email: user.email,
       password: user.password,
     };
+
     axios
       .post(url, data)
       .then((res) => {
@@ -42,26 +42,26 @@ const SignUp = () => {
       <h1>Sign up </h1>
       <form onSubmit={submitForm}>
         <Input
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
           name="firstName"
           placeholder="First Name"
         />
         <Input
-          onChange={handleChange}
+          handleChange={handleChange}
           type="text"
           name="lastName"
           placeholder="Last Name"
         />
         <Input
-          onChange={handleChange}
+          handleChange={handleChange}
           type="email"
           name="email"
           placeholder="email"
           autoComplete="email"
         />
         <Input
-          onChange={handleChange}
+          handleChange={handleChange}
           type="password"
           name="password"
           placeholder="password"

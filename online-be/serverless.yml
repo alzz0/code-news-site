@@ -135,13 +135,15 @@ resources:
     postsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: postsTable
+        TableName: postsTable1
         AttributeDefinitions:
           - AttributeName: type
             AttributeType: S
           - AttributeName: url
             AttributeType: S
           - AttributeName: uploadDate
+            AttributeType: N
+          - AttributeName: recommended
             AttributeType: N
           - AttributeName: upVotes
             AttributeType: N
@@ -164,6 +166,14 @@ resources:
               - AttributeName: type
                 KeyType: HASH
               - AttributeName: upVotes
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: recommendedLSI
+            KeySchema:
+              - AttributeName: type
+                KeyType: HASH
+              - AttributeName: recommended
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL

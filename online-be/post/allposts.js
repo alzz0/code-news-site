@@ -8,13 +8,13 @@ module.exports.handler = async (event) => {
 
   try {
     let params = {
-      TableName: "postsTable",
+      TableName: "postsTable1",
       IndexName: parsedEvent.secondaryIndex,
       KeyConditionExpression: "#type = :type",
       ExpressionAttributeNames: { "#type": "type" },
       ExpressionAttributeValues: { ":type": "posts" },
       ScanIndexForward: false,
-      Limit: 28,
+      Limit: 10,
     };
 
     if (parsedEvent.lastItem) {

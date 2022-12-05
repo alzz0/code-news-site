@@ -1,7 +1,9 @@
 const AWS = require("aws-sdk");
+const uuid = require("uuid");
 const { sendResponse, validateInput } = require("../userFunctions");
 const cognito = new AWS.CognitoIdentityServiceProvider();
 const dynamodb = new AWS.DynamoDB();
+
 module.exports.handler = async (event) => {
   try {
     const isValid = validateInput(event.body);
@@ -30,6 +32,7 @@ module.exports.handler = async (event) => {
     };
 
     const response = await cognito.adminCreateUser(params).promise();
+    console.log("response", response);
 
     if (response.User) {
       const paramsForSetPass = {
@@ -38,15 +41,17 @@ module.exports.handler = async (event) => {
         Username: email,
         Permanent: true,
       };
+
       await cognito.adminSetUserPassword(paramsForSetPass).promise();
       const date = new Date().getTime();
       try {
         const paramsforDB = {
           Item: {
-            id: { S: date.toString() },
+            id: { S: uuid.v1() },
             email: { S: email },
             username: { S: " " },
-            createdAt: { S: new Date().toISOString().toString() },
+            createdAt: { S: new Date().getTime().toString() },
+            bookmarks: { SS: [""] },
           },
           TableName: "usersTable",
         };
