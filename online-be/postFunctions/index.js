@@ -12,9 +12,8 @@ const sendResponse = (statusCode, body) => {
 };
 
 const validateInput = (data) => {
-  console.log("data", data);
   const body = JSON.parse(data);
-  console.log("bodyvalid:", body);
+
   const { url } = body;
   if (!url) return false;
   return true;

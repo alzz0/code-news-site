@@ -11,7 +11,6 @@ const PostGrid = () => {
 
   const { loading, error, list } = useFetch(page);
   const { posts } = useContext(PostsContext);
-  console.log(sortType);
 
   const [backToTop, setBackToTop] = useState(false);
 
@@ -20,28 +19,24 @@ const PostGrid = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight) {
-      console.log(sortType);
-      console.log(lastPage);
-      console.log(lastItem);
       if (lastPage && !lastItem) return;
-      //!lastItem
 
       setSortType((prevState) => ({
-        type: prevState.type,
+        type: sortType.type,
         page: prevState.page + 1,
-        lastItem: lastItem,
+        lastItem: prevState.lastItem,
         lastPage: prevState.lastPage,
-        loading: false,
+        loading: prevState.loading,
       }));
     }
   };
   const scrollToTop = () => {
     // issue is
     setBackToTop(false);
-    console.log(sortType);
+
     setSortType((prevState) => ({
       type: prevState.type,
-      page: 1,
+      page: prevState.page,
       lastItem: prevState.lastItem,
       lastPage: prevState.lastPage,
       loading: false,
@@ -50,7 +45,6 @@ const PostGrid = () => {
       top: 0,
       behavior: "smooth",
     });
-    console.log(sortType);
   };
 
   const showBackUpBtn = () => {
@@ -68,7 +62,6 @@ const PostGrid = () => {
   }, []);
 
   useEffect(() => {
-    console.log(page);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   });

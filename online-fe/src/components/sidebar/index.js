@@ -24,36 +24,43 @@ const Sidebar = () => {
   const username = localStorage.getItem("username");
   const url = `${config.apiGateway.URL}posts`;
 
-  const fetchData = async (sortVal) => {
+  const fetchData = async (sorttype) => {
     const params = {
       page: 1,
       lastItem: "",
-      secondaryIndex: sortVal,
+      secondaryIndex: sorttype,
     };
+
+    setSortType((prevState) => ({
+      type: sorttype,
+      page: 1,
+      lastItem: "",
+      lastPage: false,
+      loading: true,
+    }));
+
     try {
       const res = await axios.post(url, params);
       const items = res.data.Items;
-      console.log(res);
+
       if (res.data.LastEvaluatedKey) {
-        console.log(1);
         setSortType({
-          type: sortVal,
+          type: sorttype,
           page: 1,
           lastItem: res.data.LastEvaluatedKey,
           lastPage: false,
           loading: false,
         });
       } else {
-        console.log(2);
         setSortType({
-          type: sortVal,
+          type: sorttype,
           page: 1,
           lastItem: "",
           lastPage: true,
           loading: false,
         });
       }
-      console.log(sortType);
+
       setPosts([...items]);
     } catch (error) {
       console.error(error);
@@ -61,8 +68,6 @@ const Sidebar = () => {
   };
 
   const handleSort = (sorttype, label) => {
-    console.log(sorttype);
-    console.log(sortType);
     setSelecetedLabel(label);
     if (sorttype !== sortType.type) {
       fetchData(sorttype);

@@ -20,7 +20,6 @@ module.exports.handler = async (event) => {
       base64File.replace(/^data:image\/\w+;base64,/, ""),
       "base64"
     );
-    console.log("buf,", buf);
 
     const data = {
       Key: id,
@@ -30,7 +29,6 @@ module.exports.handler = async (event) => {
       ContentEncoding: "base64",
     };
 
-    console.log("data", data);
     // upload to s3
     s3Bucket.putObject(data, function (err, data) {
       if (err) {

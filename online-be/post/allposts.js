@@ -2,9 +2,7 @@ const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.handler = async (event) => {
-  console.log("event body::", event.body);
   const parsedEvent = JSON.parse(event.body);
-  console.log("event starting key ::", parsedEvent.lastItem);
 
   try {
     let params = {
@@ -21,7 +19,6 @@ module.exports.handler = async (event) => {
       params.ExclusiveStartKey = parsedEvent.lastItem;
     }
     const data = await dynamodb.query(params).promise();
-    console.log("data", data);
 
     const lastEvaluatedKey = data.LastEvaluatedKey;
 

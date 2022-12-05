@@ -15,6 +15,13 @@ function useFetch(page) {
   useEffect(() => {
     if (sortType.loading) return;
     const fetchData = async () => {
+      setSortType((prevState) => ({
+        type: sortType.type,
+        page: prevState.page,
+        lastItem: prevState.lastItem,
+        lastPage: prevState.lastItem,
+        loading: true,
+      }));
       const params = {
         page,
         lastItem: lastItem,
@@ -28,7 +35,7 @@ function useFetch(page) {
 
         if (res.data.LastEvaluatedKey) {
           setSortType((prevState) => ({
-            type: prevState.type,
+            type: sortType.type,
             page: prevState.page,
             lastItem: res.data.LastEvaluatedKey,
             lastPage: false,
@@ -38,9 +45,9 @@ function useFetch(page) {
         } else {
           setPosts((prevState) => [...prevState, ...items]);
           setSortType((prevState) => ({
-            type: prevState.type,
+            type: sortType.type,
             page: prevState.page,
-            lastItem: res.data.LastEvaluatedKey,
+            lastItem: sortType.lastItem,
             lastPage: true,
             loading: false,
           }));

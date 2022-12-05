@@ -33,7 +33,6 @@ const CreatePost = () => {
   ];
 
   const handleFileChange = async (e) => {
-    console.log(e);
     const file = e.target.files[0];
     const convertedFile = await convertToBase64(file);
     setFile(convertedFile);
