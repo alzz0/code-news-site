@@ -23,12 +23,19 @@ const DashBoardLayout = () => {
           {/* <nav className="dashboard-search">
             <Search />
           </nav> */}
+          {/* <div style={{ marginLeft: "250px" }}>
+            <h1>BookMarks</h1>
+          </div> */}
           <main style={styles.mainContainer}>
             <aside style={styles.sidebar}>
               <Sidebar />
             </aside>
+
             <main style={styles.gridContainer}>
-              {/* <CreatePost /> */}
+              {/* <div style={{ marginTop: "100px" }}>
+                <CreatePost />
+              </div> */}
+
               <PostGrid />
             </main>
           </main>

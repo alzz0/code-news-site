@@ -19,19 +19,12 @@ import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 
 const Sidebar = () => {
   const [selectedLabel, setSelecetedLabel] = useState("recent");
-  const { setSortType } = useContext(SortTypeContext);
+  const { sortType, setSortType } = useContext(SortTypeContext);
   const { setPosts } = useContext(PostsContext);
   const username = localStorage.getItem("username");
   const url = `${config.apiGateway.URL}posts`;
 
   const fetchData = async (sortVal) => {
-    setSortType((prevState) => ({
-      type: sortVal,
-      page: 1,
-      lastItem: prevState.lastItem,
-      lastPage: false,
-      loading: true,
-    }));
     const params = {
       page: 1,
       lastItem: "",
@@ -55,20 +48,25 @@ const Sidebar = () => {
         setSortType({
           type: sortVal,
           page: 1,
-          lastItem: res.data.LastEvaluatedKey,
+          lastItem: "",
           lastPage: true,
           loading: false,
         });
       }
+      console.log(sortType);
       setPosts([...items]);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSort = (sortType, label) => {
+  const handleSort = (sorttype, label) => {
+    console.log(sorttype);
+    console.log(sortType);
     setSelecetedLabel(label);
-    fetchData(sortType);
+    if (sorttype !== sortType.type) {
+      fetchData(sorttype);
+    }
     window.scrollTo({
       top: 0,
       behavior: "smooth",

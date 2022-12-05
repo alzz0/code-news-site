@@ -11,6 +11,7 @@ const PostGrid = () => {
 
   const { loading, error, list } = useFetch(page);
   const { posts } = useContext(PostsContext);
+  console.log(sortType);
 
   const [backToTop, setBackToTop] = useState(false);
 
@@ -28,13 +29,14 @@ const PostGrid = () => {
       setSortType((prevState) => ({
         type: prevState.type,
         page: prevState.page + 1,
-        lastItem: prevState.lastItem,
+        lastItem: lastItem,
         lastPage: prevState.lastPage,
         loading: false,
       }));
     }
   };
   const scrollToTop = () => {
+    // issue is
     setBackToTop(false);
     console.log(sortType);
     setSortType((prevState) => ({
@@ -66,9 +68,10 @@ const PostGrid = () => {
   }, []);
 
   useEffect(() => {
+    console.log(page);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [page]);
+  });
 
   return (
     <>

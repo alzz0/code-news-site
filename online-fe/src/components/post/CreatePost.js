@@ -39,6 +39,14 @@ const CreatePost = () => {
     setFile(convertedFile);
   };
 
+  const clearState = () => {
+    setUrl("");
+    setTitle("");
+    setFile([]);
+    setTags([]);
+    setReadTime([]);
+    setRecommended(false);
+  };
   const convertToBase64 = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -69,6 +77,7 @@ const CreatePost = () => {
       .post(urlApi, data)
       .then((res) => {
         console.log(res);
+        clearState();
       })
       .catch((err) => console.log(err));
   };
