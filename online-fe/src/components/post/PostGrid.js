@@ -31,16 +31,8 @@ const PostGrid = () => {
     }
   };
   const scrollToTop = () => {
-    // issue is
     setBackToTop(false);
 
-    setSortType((prevState) => ({
-      type: prevState.type,
-      page: prevState.page,
-      lastItem: prevState.lastItem,
-      lastPage: prevState.lastPage,
-      loading: false,
-    }));
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -67,17 +59,42 @@ const PostGrid = () => {
   });
 
   return (
-    <>
-      <Card items={posts || "loading"} />
+    <main style={styles.mainContainer}>
+      <main style={styles.gridContainer}>
+        <Card items={posts || "loading"} />
 
-      <div
-        onClick={scrollToTop}
-        className={`${backToTop ? "scroll-up-btn" : "removeBtn"} `}
-      >
-        Back to Top
-      </div>
-    </>
+        <div
+          onClick={scrollToTop}
+          className={`${backToTop ? "scroll-up-btn" : "removeBtn"} `}
+        >
+          Back to Top
+        </div>
+      </main>
+    </main>
   );
 };
 
 export default PostGrid;
+const styles = {
+  mainContainer: {
+    display: "flex",
+    flexDirection: "row",
+    paddingLeft: "250px",
+  },
+  sidebar: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+    position: "fixed",
+    width: "250px",
+    left: 0,
+  },
+  gridContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    maxWidth: "2500px",
+    margin: "0 auto",
+  },
+};

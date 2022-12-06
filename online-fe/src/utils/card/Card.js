@@ -1,9 +1,15 @@
 import "./card.css";
 import { formatDate } from "../../helpers/formatDate";
+import { BsBookmark, BsFillBookmarkFill, BsToggles } from "react-icons/bs";
 export const Card = ({ items }) => {
   const posts = items.map((post) => {
     const date = formatDate(parseInt(post.uploadDate));
 
+    const handleSave = (e) => {
+      console.log("Save this post:", post);
+
+      e.stopPropagation();
+    };
     return (
       <div
         onClick={() => window.open(post.url)}
@@ -16,6 +22,9 @@ export const Card = ({ items }) => {
               ? `${post.title.slice(0, 80)} ... `
               : post.title}
           </span>
+        </div>
+        <div className="card-banner" onClick={handleSave}>
+          <BsBookmark size={25} />
         </div>
         <div style={styles.imageContainer}>
           <div style={styles.readTime}>

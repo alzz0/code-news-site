@@ -1,0 +1,9 @@
+/* .savedHeader,
+.savedBody {
+  margin-left: 400px;
+} */
+
+.savedTitle {
+  border-bottom: 0.5px solid rgb(40, 40, 40);
+  padding-bottom: 10px;
+}

@@ -16,8 +16,10 @@ import { MdAccessTimeFilled } from "react-icons/md";
 import axios from "axios";
 import config from "../../config";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [selectedLabel, setSelecetedLabel] = useState("recent");
   const { sortType, setSortType } = useContext(SortTypeContext);
   const { setPosts } = useContext(PostsContext);
@@ -76,8 +78,12 @@ const Sidebar = () => {
       top: 0,
       behavior: "smooth",
     });
+    navigate("/");
   };
   const handleClick = (label) => {
+    navigate(`/${label}`);
+    console.log(label);
+
     setSelecetedLabel(label);
   };
 
@@ -129,20 +135,19 @@ const Sidebar = () => {
             <span className="label-text">Recommended</span>
           </li>
 
-          <li
-            className="sidebar-labels"
-            onClick={() => handleClick("bookmark")}
-          >
+          <li className="sidebar-labels" onClick={() => handleClick("saved")}>
             <span className="label-icon">
-              {selectedLabel === "bookmark" ? (
+              {selectedLabel === "saved" ? (
                 <BsFillBookmarkFill size={30} />
               ) : (
                 <BsBookmark size={30} />
               )}
             </span>
-            <span className="label-text">Bookmarks</span>
+            {/* <NavLink to="/saved"> */}
+            <span className="label-text">Saved</span>
+            {/* </NavLink> */}
           </li>
-          <li className="sidebar-labels" onClick={() => handleClick("history")}>
+          {/* <li className="sidebar-labels" onClick={() => handleClick("history")}>
             <span className="label-icon">
               {selectedLabel === "history" ? (
                 <AiFillEye size={30} />
@@ -157,7 +162,7 @@ const Sidebar = () => {
               <BsToggles size={30} />
             </span>
             <span className="label-text">Toggle theme</span>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <div className="empty-space"></div>

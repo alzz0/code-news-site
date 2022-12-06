@@ -33,7 +33,7 @@
 }
 
 .sidebar-main li:hover {
-  background-color: rgb(26, 26, 26);
+  background-color: rgb(40, 40, 40);
 }
 
 .sidebar-header {
@@ -62,7 +62,7 @@
 }
 
 .bottom-nav ul:hover {
-  background-color: rgb(26, 26, 26);
+  background-color: rgb(40, 40, 40);
 }
 
 .label-icon {

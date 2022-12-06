@@ -1,0 +1,39 @@
+/* .savedHeader {
+  display: flex;
+} */
+
+.settingsContainer .savedHeader {
+  display: flex;
+}
+
+.savedTitle {
+  border-bottom: 0.5px solid rgb(40, 40, 40);
+  padding-bottom: 10px;
+}
+.settingsContainer {
+  margin-left: 400px;
+}
+.savedContainer {
+  margin-left: 400px;
+}
+
+.cursor-pointer {
+  list-style: none;
+  padding: 15px 0px 15px 5px;
+  cursor: pointer;
+}
+.account-settings-container .cursor-pointer:hover {
+  background-color: rgb(25, 25, 25);
+  cursor: pointer;
+}
+
+.item-header {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.savedBody .cursor-pointer {
+  font-weight: bold;
+  font-size: 20px;
+  white-space: nowrap;
+}

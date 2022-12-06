@@ -12,7 +12,7 @@ module.exports.handler = async (event) => {
       ExpressionAttributeNames: { "#type": "type" },
       ExpressionAttributeValues: { ":type": "posts" },
       ScanIndexForward: false,
-      Limit: 28,
+      Limit: 35,
     };
 
     if (parsedEvent.lastItem) {
