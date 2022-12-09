@@ -69,6 +69,13 @@ functions:
           path: posts
           method: post
           cors: true
+  autoConfirmUser:
+    handler: user/autoconfirmuser.handler
+    events:
+      - cognitoUserPool:
+          pool: serverless-auth-pool
+          existing: true
+          trigger: PreSignUp
 
   privateAPI:
     handler: user/private.handler
@@ -83,6 +90,29 @@ functions:
             arn: !GetAtt UserPool.Arn
             claims:
               - email
+  auth:
+    handler: user/auth.auth
+
+  profile1:
+    handler: user/auth.profile
+    events:
+      - http:
+          path: profile1
+          method: GET
+          # cors: true
+          authorizer:
+            name: auth
+            resultTtlInSeconds: 300
+            identitySource: method.request.header.authorizationToken
+            type: token
+
+  verifyUser:
+    handler: user/verify.handler
+    events:
+      - http:
+          path: user/verify
+          method: post
+          cors: true
 
   fetchNews:
     handler: post/cronfetchposts.handler
@@ -116,18 +146,24 @@ resources:
         AccessTokenValidity: 5
         IdTokenValidity: 5
         ExplicitAuthFlows:
-          - "ADMIN_NO_SRP_AUTH"
+          - "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+          - "ALLOW_REFRESH_TOKEN_AUTH"
+
 
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
+        TableName: usersTable1
         AttributeDefinitions:
           - AttributeName: username
+            AttributeType: S
+          - AttributeName: email
             AttributeType: S
         KeySchema:
           - AttributeName: username
             KeyType: HASH
+          - AttributeName: email
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

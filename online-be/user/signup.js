@@ -53,7 +53,7 @@ module.exports.handler = async (event) => {
             createdAt: { S: new Date().getTime().toString() },
             bookmarks: { SS: [""] },
           },
-          TableName: "usersTable",
+          TableName: "usersTable1",
         };
         await dynamodb.putItem(paramsforDB).promise();
       } catch (error) {

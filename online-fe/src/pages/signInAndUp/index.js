@@ -4,6 +4,8 @@ import config from "../../config";
 import { Input } from "../../utils";
 import { AuthContext } from "../../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { setUserSession } from "../../service/AuthService";
+
 
 const { URL } = config.apiGateway;
 const SignUp = () => {
@@ -19,6 +21,7 @@ const SignUp = () => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
   const submitForm = (e) => {
     e.preventDefault();
     const url = `${URL}user/signup`;
@@ -37,6 +40,7 @@ const SignUp = () => {
         setResponseMessage(err.response.data.message);
       });
   };
+
   return (
     <div>
       <h1>Sign up </h1>
@@ -79,6 +83,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  console.log('user')
   const navigate = useNavigate();
 
   const { setAuth } = useContext(AuthContext);
@@ -86,8 +91,11 @@ const SignIn = () => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+
   const submitForm = (e) => {
     e.preventDefault();
+
     const url = `${URL}user/login`;
     const data = {
       email: user.email,
@@ -97,22 +105,16 @@ const SignIn = () => {
       .post(url, data)
       .then((res) => {
         setAuth(res.data);
-        localStorage.setItem(
-          "accessToken",
-          JSON.stringify(res.data.AuthenticationResult.AccessToken)
+        const { AccessToken, RefreshToken, ExpiresIn, IdToken } =
+          res.data.AuthenticationResult;
+        setUserSession(
+          AccessToken,
+          RefreshToken,
+          ExpiresIn,
+          res.data.Username,
+          IdToken
         );
-        localStorage.setItem(
-          "refreshToken",
-          JSON.stringify(res.data.AuthenticationResult.RefreshToken)
-        );
-        localStorage.setItem(
-          "expiresIn",
-          JSON.stringify(res.data.AuthenticationResult.ExpiresIn)
-        );
-        localStorage.setItem(
-          "username",
-          res.data.Username.slice(0, res.data.Username.indexOf("@"))
-        );
+
         navigate("/");
       })
       .catch((err) => {
@@ -146,7 +148,7 @@ const SignIn = () => {
 
 export default function SignInAndUp() {
   return (
-    <div style={{ paddingTop: "100px" }}>
+    <div style={{ paddingTop: "100px", marginLeft: "400px" }}>
       <SignUp />
       <SignIn />
     </div>

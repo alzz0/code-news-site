@@ -1,6 +1,6 @@
 const AWS = require("aws-sdk");
 const cognito = new AWS.CognitoIdentityServiceProvider();
-
+const { sendResponse, validateInput } = require("../userFunctions");
 module.exports.handler = async (event) => {
   console.log("eventbody", event.body);
   try {
@@ -17,12 +17,12 @@ module.exports.handler = async (event) => {
       },
     };
 
-    const data = await cognito.adminInitiateAuth(params).promise();
+     const data = await cognito.adminInitiateAuth(params).promise();
 
     const userParams = {
       AccessToken: data.AuthenticationResult.AccessToken,
     };
-    const user = await cognito.getUser(userParams).promise();
+     const user = await cognito.getUser(userParams).promise();
 
     const response = {
       statusCode: 200,
