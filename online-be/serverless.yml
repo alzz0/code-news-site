@@ -69,42 +69,33 @@ functions:
           path: posts
           method: post
           cors: true
-  autoConfirmUser:
-    handler: user/autoconfirmuser.handler
-    events:
-      - cognitoUserPool:
-          pool: serverless-auth-pool
-          existing: true
-          trigger: PreSignUp
 
-  privateAPI:
-    handler: user/private.handler
+  private:
+    handler: auth/private.handler
     events:
       - http:
-          path: user/private
-          method: post
+          path: private
+          method: get
           cors: true
-          authorizer:
-            name: PrivateAuthorizer
-            type: COGNITO_USER_POOLS
-            arn: !GetAtt UserPool.Arn
-            claims:
-              - email
-  auth:
-    handler: user/auth.auth
+          # authorizer: aws_iam
 
-  profile1:
-    handler: user/auth.profile
-    events:
-      - http:
-          path: profile1
-          method: GET
-          # cors: true
           authorizer:
-            name: auth
-            resultTtlInSeconds: 300
-            identitySource: method.request.header.authorizationToken
+            name: Authorizer
+            resultTtlInSeconds: 30
+            identitySource: method.request.header.Authorization
             type: token
+  Authorizer:
+    handler: auth/auth.handler
+    description: ${self:service} authorizer
+          #pre sign up trigger.. leaving here for future use | delete if not soon 12/9/22
+  # autoConfirmUser:
+  #   handler: user/autoconfirmuser.handler
+  #   events:
+  #     - cognitoUserPool:
+  #         pool: serverless-auth-pool
+  #         existing: true
+  #         trigger: PreSignUp
+
 
   verifyUser:
     handler: user/verify.handler
@@ -148,7 +139,6 @@ resources:
         ExplicitAuthFlows:
           - "ALLOW_ADMIN_USER_PASSWORD_AUTH"
           - "ALLOW_REFRESH_TOKEN_AUTH"
-
 
     usersTable:
       Type: AWS::DynamoDB::Table

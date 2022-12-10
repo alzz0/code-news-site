@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 export default function Routing() {
   const [posts, setPosts] = useState([]);
+  const [retryFetch, setRetryFetch] = useState(false);
   const [sortType, setSortType] = useState({
     type: "uploadDateLSI",
     page: 1,
@@ -29,15 +30,14 @@ export default function Routing() {
     const verifyUser = async () => {
       const token = getAccessToken();
       const getrefreshtoken = getRefreshToken();
-      console.log(getrefreshtoken);
-      if (
-        token === "undefined" ||
-        token === undefined ||
-        token === null ||
-        !token
-      ) {
-        return;
-      }
+      // if (
+      //   token === "undefined" ||
+      //   token === undefined ||
+      //   token === null ||
+      //   !token
+      // ) {
+      //   return;
+      // }
 
       const requestBody = {
         refreshToken: getRefreshToken(),
@@ -63,19 +63,21 @@ export default function Routing() {
       //     localStorage.setItem("ExpiresIn", ExpiresIn);
       //     console.log(res);
       //   });
-      console.log(getAccessToken())
+      // console.log(getIdToken())
       axios
         .get(
-          "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/profile1",
+          "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/private",
           {
             headers: {
               Authorization: `Bearer ${getAccessToken()}`,
-              Accept: "application/json",
+              // Accept: "application/json",
             },
           }
         )
         .then((res) => console.log(res))
-        .catch(err=>console.log(err))
+        .catch((err) => {
+          console.log(err);
+        });
     };
     verifyUser();
   }, []);
