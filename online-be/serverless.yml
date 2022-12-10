@@ -77,16 +77,25 @@ functions:
           path: private
           method: get
           cors: true
+          authorizer:
+            name: PrivateAuthorizer
+            type: COGNITO_USER_POOLS
+            arn:
+              Fn::GetAtt:
+                - UserPool
+                - Arn
+            claims:
+              - email
           # authorizer: aws_iam
 
-          authorizer:
-            name: Authorizer
-            resultTtlInSeconds: 30
-            identitySource: method.request.header.Authorization
-            type: token
-  Authorizer:
-    handler: auth/auth.handler
-    description: ${self:service} authorizer
+  #         authorizer:
+  #           name: Authorizer
+  #           resultTtlInSeconds: 30
+  #           identitySource: method.request.header.Authorization
+  #           type: token
+  # Authorizer:
+  #   handler: auth/auth.handler
+  #   description: ${self:service} authorizer
           #pre sign up trigger.. leaving here for future use | delete if not soon 12/9/22
   # autoConfirmUser:
   #   handler: user/autoconfirmuser.handler

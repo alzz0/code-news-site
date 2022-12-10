@@ -29,58 +29,63 @@ export default function Routing() {
   useEffect(() => {
     const verifyUser = async () => {
       const token = getAccessToken();
-      const getrefreshtoken = getRefreshToken();
-      // if (
-      //   token === "undefined" ||
-      //   token === undefined ||
-      //   token === null ||
-      //   !token
-      // ) {
-      //   return;
-      // }
-
-      const requestBody = {
-        refreshToken: getRefreshToken(),
-        accessToken: getAccessToken(),
-        idtoken: getIdToken(),
-        email: localStorage.getItem("username"),
-      };
-      // axios
-      //   .post(
-      //     "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/user/verify",
-      //     requestBody,
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${getAccessToken()}`,
-      //         Accept: "application/json",
-      //       },
-      //     }
-      //   )
-      //   .then((res) => {
-      //     const { AccessToken, IdToken, ExpiresIn } = res.data.accessToken;
-      //     localStorage.setItem("accessToken", AccessToken);
-      //     localStorage.setItem("IdToken", IdToken);
-      //     localStorage.setItem("ExpiresIn", ExpiresIn);
-      //     console.log(res);
-      //   });
-      // console.log(getIdToken())
+      if (
+        token === "undefined" ||
+        token === undefined ||
+        token === null ||
+        !token
+      ) {
+        return;
+      }
+console.log(token)
       axios
         .get(
           "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/private",
           {
             headers: {
-              Authorization: `Bearer ${getAccessToken()}`,
-              // Accept: "application/json",
+              Authorization: `Bearer ${getIdToken()}`,
             },
           }
         )
         .then((res) => console.log(res))
         .catch((err) => {
-          console.log(err);
+          if (!retryFetch) {
+            console.log(err)
+            reValidateTokens();
+          }
         });
     };
     verifyUser();
-  }, []);
+  }, [retryFetch]);
+
+  const reValidateTokens = () => {
+    const requestBody = {
+      refreshToken: getRefreshToken(),
+      accessToken: getAccessToken(),
+      idtoken: getIdToken(),
+      email: localStorage.getItem("username"),
+    };
+    axios
+      .post(
+        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/user/verify",
+        requestBody,
+        {
+          headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        const { AccessToken, IdToken, ExpiresIn } = res.data.accessToken;
+        localStorage.setItem("accessToken", AccessToken);
+        localStorage.setItem("IdToken", IdToken);
+        localStorage.setItem("ExpiresIn", ExpiresIn);
+        setRetryFetch(true)
+
+        console.log(res);
+      });
+  };
 
   return (
     <SortTypeContext.Provider value={{ sortType, setSortType }}>
