@@ -86,8 +86,8 @@ functions:
                 - Arn
             claims:
               - email
-          # authorizer: aws_iam
 
+#custom authorizer
   #         authorizer:
   #           name: Authorizer
   #           resultTtlInSeconds: 30

@@ -50,7 +50,6 @@ console.log(token)
         .then((res) => console.log(res))
         .catch((err) => {
           if (!retryFetch) {
-            console.log(err)
             reValidateTokens();
           }
         });
@@ -82,7 +81,6 @@ console.log(token)
         localStorage.setItem("IdToken", IdToken);
         localStorage.setItem("ExpiresIn", ExpiresIn);
         setRetryFetch(true)
-
         console.log(res);
       });
   };
