@@ -1,10 +1,8 @@
+//  here for future use of custom authorizers
 const AWS = require("aws-sdk");
-// var jwt = require("jsonwebtoken");
-// var jwkToPem = require("jwk-to-pem");
-// var pem = jwkToPem(jwk);
+
 module.exports.handler = async (event) => {
-//   console.log("eventbody", event);
-//   console.log("jwt", jwt);
+
   let token = event.authorizationToken || event.headers.Authorization;
 
   if (token.startsWith("Bearer ")) {
@@ -26,18 +24,7 @@ module.exports.handler = async (event) => {
       });
       return generatePolicy("user", "Deny", event.methodArn, response);
     } else {
-    //   jwt.verify(
-    //     token,
-    //     pem,
-    //     { algorithms: ["RS256"] },
-    //     function (err, decodedToken) {
-    //       if (err) {
-    //         console.log(err);
-    //       } else if (decodedToken) {
-    //         console.log(decodedToken);
-    //       }
-    //     }
-    //   );
+
 
       const response = JSON.stringify({
         something: "Passed auth",

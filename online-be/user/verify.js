@@ -13,6 +13,7 @@ module.exports.handler = async (event) => {
     AuthFlow: "REFRESH_TOKEN_AUTH",
     UserPoolId: user_pool_id,
     ClientId: client_id,
+
     AuthParameters: {
       REFRESH_TOKEN: refreshToken,
     },

@@ -6,7 +6,6 @@ import { AuthContext } from "../../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { setUserSession } from "../../service/AuthService";
 
-
 const { URL } = config.apiGateway;
 const SignUp = () => {
   const [responseMessage, setResponseMessage] = useState("");
@@ -83,7 +82,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  console.log('user')
+  console.log("user");
   const navigate = useNavigate();
 
   const { setAuth } = useContext(AuthContext);
@@ -91,7 +90,6 @@ const SignIn = () => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
 
   const submitForm = (e) => {
     e.preventDefault();

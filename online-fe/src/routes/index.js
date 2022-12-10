@@ -37,7 +37,6 @@ export default function Routing() {
       ) {
         return;
       }
-console.log(token)
       axios
         .get(
           "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/private",
@@ -49,6 +48,7 @@ console.log(token)
         )
         .then((res) => console.log(res))
         .catch((err) => {
+          console.log(err);
           if (!retryFetch) {
             reValidateTokens();
           }
@@ -80,7 +80,7 @@ console.log(token)
         localStorage.setItem("accessToken", AccessToken);
         localStorage.setItem("IdToken", IdToken);
         localStorage.setItem("ExpiresIn", ExpiresIn);
-        setRetryFetch(true)
+        setRetryFetch(true);
         console.log(res);
       });
   };

@@ -80,10 +80,7 @@ functions:
           authorizer:
             name: PrivateAuthorizer
             type: COGNITO_USER_POOLS
-            arn:
-              Fn::GetAtt:
-                - UserPool
-                - Arn
+            arn: !GetAtt UserPool.Arn
             claims:
               - email
 
