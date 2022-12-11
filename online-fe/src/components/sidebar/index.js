@@ -11,12 +11,13 @@ import {
 } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { BsBookmark, BsFillBookmarkFill, BsToggles } from "react-icons/bs";
-import { RiAccountPinBoxLine } from "react-icons/ri";
+import { RiAccountPinBoxLine, RiAccountPinBoxFill } from "react-icons/ri";
 import { MdAccessTimeFilled } from "react-icons/md";
 import axios from "axios";
 import config from "../../config";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../service/AuthService";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -91,14 +92,23 @@ const Sidebar = () => {
     <div className="sidebar-container">
       <nav>
         <ul className="sidebar-main">
-          <li className="sidebar-header">
-            <span className="label-icon">
-              <RiAccountPinBoxLine size={30} />
-            </span>
-            <span className="label-text">
-              {(username && username) || "Username"}
-            </span>
-          </li>
+          {getUser() && (
+            <li
+              className="sidebar-header"
+              onClick={() => handleClick("profile")}
+            >
+              <span className="label-icon">
+                {selectedLabel === "profile" ? (
+                  <RiAccountPinBoxFill size={30} />
+                ) : (
+                  <RiAccountPinBoxLine size={30} />
+                )}
+              </span>
+              <span className="label-text">
+                {(username && username.split("@")[0]) || "Username"}
+              </span>
+            </li>
+          )}
 
           <li
             onClick={() => handleSort("uploadDateLSI", "recent")}
@@ -147,7 +157,7 @@ const Sidebar = () => {
             <span className="label-text">Saved</span>
             {/* </NavLink> */}
           </li>
-          {/* <li className="sidebar-labels" onClick={() => handleClick("history")}>
+          <li className="sidebar-labels" onClick={() => handleClick("history")}>
             <span className="label-icon">
               {selectedLabel === "history" ? (
                 <AiFillEye size={30} />
@@ -157,6 +167,7 @@ const Sidebar = () => {
             </span>
             <span className="label-text">Reading history</span>
           </li>
+          {/*
           <li className="sidebar-labels">
             <span className="label-icon">
               <BsToggles size={30} />
@@ -166,14 +177,16 @@ const Sidebar = () => {
         </ul>
       </nav>
       <div className="empty-space"></div>
-      <nav className="bottom-nav">
-        <ul>
-          <li onClick={() => handleClick("settings")}>
-            <img src={logo192} width={45} alt="" />
-            <span>Settings</span>{" "}
-          </li>
-        </ul>
-      </nav>
+      {getUser() && (
+        <nav className="bottom-nav">
+          <ul>
+            <li onClick={() => handleClick("settings")}>
+              <img src={logo192} width={45} alt="" />
+              <span>Settings</span>{" "}
+            </li>
+          </ul>
+        </nav>
+      )}
     </div>
   );
 };

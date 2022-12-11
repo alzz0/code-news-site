@@ -1,12 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { getUser,resetUserSession } from "../../service/AuthService";
+import { getUser } from "../../service/AuthService";
+
 import logo192 from "../../logo.svg";
 export default function Navbar() {
-  const handleLogout =()=>{
-    resetUserSession()
-    window.location.reload();
-  }
   return (
     <div style={styles.navContainer}>
       <ul style={styles.navUl}>
@@ -15,15 +12,10 @@ export default function Navbar() {
             <img src={logo192} alt="" width={50} />
           </NavLink>
         </li>
-        {!getUser() ? (
+        {!getUser() && (
           <li style={styles.navItems}>
             <NavLink to="/signin">Sign In</NavLink>
           </li>
-        ):(
-          <li onClick={handleLogout}style={styles.navItems}>
-            <p>logout</p>
-          {/* <NavLink to="/">Logout</NavLink> */}
-        </li>
         )}
       </ul>
     </div>

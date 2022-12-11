@@ -19,12 +19,18 @@ module.exports = {
   getExpiresIn: function () {
     return localStorage.getItem("expiresIn");
   },
-  setUserSession: function (accessToken, refreshToken, expiresIn, username,IdToken) {
+  setUserSession: function (
+    accessToken,
+    refreshToken,
+    expiresIn,
+    username,
+    IdToken
+  ) {
     localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken",refreshToken);
-    localStorage.setItem("expiresIn", JSON.stringify(expiresIn));
-    localStorage.setItem("username", JSON.stringify(username));
-    localStorage.setItem('IdToken', IdToken)
+    localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("expiresIn", expiresIn);
+    localStorage.setItem("username", username);
+    localStorage.setItem("IdToken", IdToken);
   },
   resetUserSession: function () {
     localStorage.removeItem("accessToken");
@@ -35,3 +41,9 @@ module.exports = {
     localStorage.removeItem("IdToken");
   },
 };
+
+// import { getUser, resetUserSession } from "../../service/AuthService";
+// const handleLogout = () => {
+//   resetUserSession();
+//   window.location.reload();
+// };

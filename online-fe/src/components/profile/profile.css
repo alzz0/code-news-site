@@ -1,0 +1,43 @@
+.profileContainer .savedHeader {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .savedTitle {
+    border-bottom: 0.5px solid rgb(40, 40, 40);
+    padding-bottom: 10px;
+  }
+  .profileContainer {
+    margin-left: 400px;
+  }
+  .savedContainer {
+    margin-left: 400px;
+  }
+  
+  .profile-items {
+    list-style: none;
+    padding: 15px 0px 15px 5px;
+    cursor: pointer;
+  }
+  .profile-items li{
+  padding:30px 5px 30px 5px
+  }
+  /* .profile-items li:hover{
+    background-color: rgb(25, 25, 25);
+  }
+  .account-profile-container .cursor-pointer:hover {
+    background-color: rgb(25, 25, 25);
+    cursor: pointer;
+  }
+   */
+  .item-header {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .savedBody .cursor-pointer {
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  

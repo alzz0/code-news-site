@@ -1,7 +1,9 @@
 import "./settings.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Account from "./settingItems/Account";
 import Theme from "./settingItems/Theme";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../service/AuthService";
 const Settings = () => {
   const [view, setView] = useState("settings");
   const [toogleSubView, setToogleSubView] = useState(false);
@@ -13,6 +15,12 @@ const Settings = () => {
     { name: "Payment Settings", value: "payment" },
   ];
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!getUser()) {
+      navigate("/");
+    }
+  });
   const handleView = (elm) => {
     setToogleSubView(false);
 

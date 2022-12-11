@@ -9,6 +9,7 @@ import { SortTypeContext } from "../hooks/posts/SortTypeContext";
 import PostGrid from "../components/post/PostGrid";
 import SavedPosts from "../components/savedposts/SavedPosts";
 import Settings from "../components/settings/Settings";
+import Profile from "../components/profile/Profile";
 
 import {
   getAccessToken,
@@ -79,7 +80,7 @@ export default function Routing() {
         const { AccessToken, IdToken, ExpiresIn } = res.data.accessToken;
         localStorage.setItem("accessToken", AccessToken);
         localStorage.setItem("IdToken", IdToken);
-        localStorage.setItem("ExpiresIn", ExpiresIn);
+        localStorage.setItem("expiresIn", ExpiresIn);
         setRetryFetch(true);
         console.log(res);
       });
@@ -101,6 +102,7 @@ export default function Routing() {
               <Route exact path="/saved" element={<SavedPosts />} />
               <Route exact path="/settings" element={<Settings />} />
               <Route exact path="/signin" element={<SignInAndUp />} />
+              <Route exact path="/profile" element={<Profile />} />
             </Routes>
           </Router>
         </div>
