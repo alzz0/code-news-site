@@ -38,6 +38,20 @@ functions:
           method: post
           cors: true
 
+  savePost:
+    handler: post/savepost.handler
+    events:
+      - http:
+          path: post/save
+          method: post
+          cors: true
+          authorizer:
+            name: PrivateAuthorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt UserPool.Arn
+            claims:
+              - email
+
   signupUser:
     handler: user/signup.handler
     events:
@@ -84,7 +98,7 @@ functions:
             claims:
               - email
 
-#custom authorizer
+  #custom authorizer
   #         authorizer:
   #           name: Authorizer
   #           resultTtlInSeconds: 30
@@ -93,7 +107,7 @@ functions:
   # Authorizer:
   #   handler: auth/auth.handler
   #   description: ${self:service} authorizer
-          #pre sign up trigger.. leaving here for future use | delete if not soon 12/9/22
+  #pre sign up trigger.. leaving here for future use | delete if not soon 12/9/22
   # autoConfirmUser:
   #   handler: user/autoconfirmuser.handler
   #   events:
@@ -101,7 +115,6 @@ functions:
   #         pool: serverless-auth-pool
   #         existing: true
   #         trigger: PreSignUp
-
 
   verifyUser:
     handler: user/verify.handler

@@ -50,7 +50,7 @@ module.exports.handler = async (event) => {
             id: { S: uuid.v1() },
             email: { S: email },
             username: { S: " " },
-            createdAt: { S: new Date().getTime().toString() },
+            createdAt: { S: date.toString() },
             bookmarks: { SS: [""] },
           },
           TableName: "usersTable1",

@@ -15,3 +15,26 @@
   display: none;
   transition: 0.9s;
 }
+
+
+@keyframes spin {
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
+}   /* To make this thing go faster, change the turn amount (above) or change the millisecond amount (below)*/
+#loader-spinner {
+  animation: spin 1000ms;
+  animation-iteration-count: infinite;
+}
+
+#loader-posts{
+  animation: spin 1000ms;
+  animation-iteration-count: infinite;
+  position: fixed;
+    bottom: 0;
+
+    margin: 0 auto;
+
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 109px;
+}

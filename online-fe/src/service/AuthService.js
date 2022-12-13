@@ -41,9 +41,3 @@ module.exports = {
     localStorage.removeItem("IdToken");
   },
 };
-
-// import { getUser, resetUserSession } from "../../service/AuthService";
-// const handleLogout = () => {
-//   resetUserSession();
-//   window.location.reload();
-// };

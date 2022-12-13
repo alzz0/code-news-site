@@ -1,21 +1,24 @@
 import "./card.css";
 import { formatDate } from "../../helpers/formatDate";
-import { BsBookmark, BsFillBookmarkFill, BsToggles } from "react-icons/bs";
+import { BsBookmark } from "react-icons/bs";
+import authRefreshToken from "../../service/authRefreshToken";
 export const Card = ({ items }) => {
   const posts = items.map((post) => {
     const date = formatDate(parseInt(post.uploadDate));
 
     const handleSave = (e) => {
       console.log("Save this post:", post);
-
       e.stopPropagation();
+      authRefreshToken(
+        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/post/save"
+      );
+    };
+    const handleClick = () => {
+      console.log(post);
+      window.open(post.url);
     };
     return (
-      <div
-        onClick={() => window.open(post.url)}
-        key={post.id}
-        className="cardContainer"
-      >
+      <div onClick={handleClick} key={post.id} className="cardContainer">
         <div style={styles.detailsContainer}>
           <span style={styles.title}>
             {post.title.length > 80

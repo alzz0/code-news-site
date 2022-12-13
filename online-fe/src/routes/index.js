@@ -10,16 +10,11 @@ import PostGrid from "../components/post/PostGrid";
 import SavedPosts from "../components/savedposts/SavedPosts";
 import Settings from "../components/settings/Settings";
 import Profile from "../components/profile/Profile";
+import authRefreshToken from "../service/authRefreshToken";
 
-import {
-  getAccessToken,
-  getRefreshToken,
-  getIdToken,
-} from "../service/AuthService";
-import axios from "axios";
 export default function Routing() {
   const [posts, setPosts] = useState([]);
-  const [retryFetch, setRetryFetch] = useState(false);
+
   const [sortType, setSortType] = useState({
     type: "uploadDateLSI",
     page: 1,
@@ -29,62 +24,12 @@ export default function Routing() {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const token = getAccessToken();
-      if (
-        token === "undefined" ||
-        token === undefined ||
-        token === null ||
-        !token
-      ) {
-        return;
-      }
-      axios
-        .get(
-          "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/private",
-          {
-            headers: {
-              Authorization: `Bearer ${getIdToken()}`,
-            },
-          }
-        )
-        .then((res) => console.log(res))
-        .catch((err) => {
-          console.log(err);
-          if (!retryFetch) {
-            reValidateTokens();
-          }
-        });
+      authRefreshToken(
+        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/private"
+      );
     };
     verifyUser();
-  }, [retryFetch]);
-
-  const reValidateTokens = () => {
-    const requestBody = {
-      refreshToken: getRefreshToken(),
-      accessToken: getAccessToken(),
-      idtoken: getIdToken(),
-      email: localStorage.getItem("username"),
-    };
-    axios
-      .post(
-        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/user/verify",
-        requestBody,
-        {
-          headers: {
-            Authorization: `Bearer ${getAccessToken()}`,
-            Accept: "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        const { AccessToken, IdToken, ExpiresIn } = res.data.accessToken;
-        localStorage.setItem("accessToken", AccessToken);
-        localStorage.setItem("IdToken", IdToken);
-        localStorage.setItem("expiresIn", ExpiresIn);
-        setRetryFetch(true);
-        console.log(res);
-      });
-  };
+  }, []);
 
   return (
     <SortTypeContext.Provider value={{ sortType, setSortType }}>

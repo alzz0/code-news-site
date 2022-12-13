@@ -9,7 +9,7 @@ const PostGrid = () => {
   const { sortType, setSortType } = useContext(SortTypeContext);
   const { page, lastPage, lastItem } = sortType;
 
-  const { loading, error, list } = useFetch(page);
+  const { error, list } = useFetch(page);
   const { posts } = useContext(PostsContext);
 
   const [backToTop, setBackToTop] = useState(false);
@@ -59,18 +59,33 @@ const PostGrid = () => {
   });
 
   return (
-    <main style={styles.mainContainer}>
-      <main style={styles.gridContainer}>
-        <Card items={posts || "loading"} />
-
-        <div
-          onClick={scrollToTop}
-          className={`${backToTop ? "scroll-up-btn" : "removeBtn"} `}
-        >
-          Back to Top
-        </div>
+    <>
+      <main style={styles.mainContainer}>
+        <main style={styles.gridContainer}>
+          <Card items={posts} />
+          {posts.length === 0 && (
+            <img
+              alt="spinner"
+              id="loader-spinner"
+              src={process.env.PUBLIC_URL + "/images/loadingSpinner.png"}
+            />
+          )}
+          <div
+            onClick={scrollToTop}
+            className={`${backToTop ? "scroll-up-btn" : "removeBtn"} `}
+          >
+            Back to Top
+          </div>
+        </main>
       </main>
-    </main>
+      {sortType.loading && posts.length > 0 && (
+        <img
+          alt="spinner"
+          id="loader-posts"
+          src={process.env.PUBLIC_URL + "/images/loadingSpinner.png"}
+        />
+      )}
+    </>
   );
 };
 

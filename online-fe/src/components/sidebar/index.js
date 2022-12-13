@@ -34,13 +34,13 @@ const Sidebar = () => {
       secondaryIndex: sorttype,
     };
 
-    setSortType((prevState) => ({
+    setSortType({
       type: sorttype,
       page: 1,
       lastItem: "",
       lastPage: false,
       loading: true,
-    }));
+    });
 
     try {
       const res = await axios.post(url, params);
@@ -74,11 +74,16 @@ const Sidebar = () => {
     setSelecetedLabel(label);
     if (sorttype !== sortType.type) {
       fetchData(sorttype);
+      window.scrollTo({
+        top: 0,
+      });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+
     navigate("/");
   };
   const handleClick = (label) => {
@@ -157,7 +162,7 @@ const Sidebar = () => {
             <span className="label-text">Saved</span>
             {/* </NavLink> */}
           </li>
-          <li className="sidebar-labels" onClick={() => handleClick("history")}>
+          {/* <li className="sidebar-labels" onClick={() => handleClick("history")}>
             <span className="label-icon">
               {selectedLabel === "history" ? (
                 <AiFillEye size={30} />
@@ -165,8 +170,8 @@ const Sidebar = () => {
                 <AiOutlineEye size={30} />
               )}
             </span>
-            <span className="label-text">Reading history</span>
-          </li>
+ <span className="label-text">Reading history</span>
+          </li> */}
           {/*
           <li className="sidebar-labels">
             <span className="label-icon">
