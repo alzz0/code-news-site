@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "aws-sdk": "^2.1208.0",
+    "aws-sdk": "^2.1275.0",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5"
   }

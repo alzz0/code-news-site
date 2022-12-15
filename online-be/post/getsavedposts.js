@@ -7,24 +7,37 @@ module.exports.handler = async (event) => {
   try {
     const { user_table } = process.env;
 
-    const updateParams = {
+    console.log(user_table);
+
+    const params = {
       TableName: user_table,
       Key: {
         email: { S: parsedEvent.user },
         username: { S: parsedEvent.user },
       },
+      ProjectionExpression: "bookmarks",
+    };
 
-      UpdateExpression: "ADD bookmarks :bookmarks",
-      ExpressionAttributeValues: {
-        ":bookmarks": {
-          SS: [parsedEvent.post],
+    const user = await dynamodb.getItem(params).promise();
+    console.log("user", user.Item.bookmarks);
+
+    const batchParams = {
+      RequestItems: {
+        postsTable1: {
+          Keys: [
+            { type: { S: "posts" } },
+            {
+              url: {
+                S: "https://www.orissapost.com/india-among-top-3-countries-originating-iot-malware-microsoft/",
+              },
+            },
+          ],
+          //   ProjectionExpression: "Albu÷mTitle",
         },
       },
-      ReturnValues: "UPDATED_NEW",
     };
-    const updatedUser = await dynamodb.updateItem(updateParams).promise();
-    console.log(updatedUser);
-
+    const posts = await dynamodb.batchGetItem(batchParams).promise();
+    console.log("posts", posts);
     const response = {
       statusCode: 200,
       headers: {

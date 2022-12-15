@@ -8,6 +8,7 @@ provider:
   environment:
     user_pool_id: { Ref: UserPool }
     client_id: { Ref: UserClient }
+    user_table: {Ref: usersTable }
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,6 +22,7 @@ provider:
         - dynamodb:PostItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
         - s3:PutObject
         - s3:GetObject
         - s3:DeleteObject
@@ -43,6 +45,19 @@ functions:
     events:
       - http:
           path: post/save
+          method: post
+          cors: true
+          authorizer:
+            name: PrivateAuthorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt UserPool.Arn
+            claims:
+              - email
+  getSavedPosts:
+    handler: post/getsavedposts.handler
+    events:
+      - http:
+          path: post/getsaved
           method: post
           cors: true
           authorizer:
@@ -162,16 +177,16 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable1
+        TableName: usersTable
         AttributeDefinitions:
-          - AttributeName: username
-            AttributeType: S
           - AttributeName: email
+            AttributeType: S
+          - AttributeName: username
             AttributeType: S
         KeySchema:
-          - AttributeName: username
-            KeyType: HASH
           - AttributeName: email
+            KeyType: HASH
+          - AttributeName: username
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1

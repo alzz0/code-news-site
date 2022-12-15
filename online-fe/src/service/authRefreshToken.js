@@ -2,7 +2,7 @@ import { getAccessToken, getRefreshToken, getIdToken } from "./AuthService";
 import axios from "axios";
 
 var retryFetch = false;
-const authRefreshToken = (url) => {
+const authRefreshToken = (url, payload) => {
   const token = getAccessToken();
   if (
     token === "undefined" ||
@@ -12,22 +12,41 @@ const authRefreshToken = (url) => {
   ) {
     return;
   }
-  axios
-    .get(url, {
-      headers: {
-        Authorization: `Bearer ${getIdToken()}`,
-      },
-    })
-    .then((res) => console.log(res))
-    .catch((err) => {
-      console.log(err);
-      if (!retryFetch) {
-        reValidateTokens(url);
-      }
-    });
+  if (payload) {
+    console.log(payload);
+
+    axios
+      .post(url, payload, {
+        headers: {
+          Authorization: `Bearer ${getIdToken()}`,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+        if (!retryFetch) {
+          reValidateTokens(url, payload);
+        }
+      });
+  } else {
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${getIdToken()}`,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+        if (!retryFetch) {
+          reValidateTokens(url);
+        }
+      });
+  }
 };
 
-const reValidateTokens = (url) => {
+const reValidateTokens = (url, payload) => {
+  console.log("Revalidating tokens");
   const requestBody = {
     refreshToken: getRefreshToken(),
     accessToken: getAccessToken(),
@@ -40,7 +59,7 @@ const reValidateTokens = (url) => {
       requestBody,
       {
         headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
+          Authorization: `${getAccessToken()}`,
           Accept: "application/json",
         },
       }
@@ -51,7 +70,7 @@ const reValidateTokens = (url) => {
       localStorage.setItem("IdToken", IdToken);
       localStorage.setItem("expiresIn", ExpiresIn);
       // setRetryFetch(true);
-      authRefreshToken(url);
+      authRefreshToken(url, payload);
       retryFetch = true;
       console.log(res);
     });

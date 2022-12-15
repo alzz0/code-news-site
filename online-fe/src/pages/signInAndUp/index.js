@@ -16,6 +16,7 @@ const SignUp = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -23,17 +24,39 @@ const SignUp = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    const url = `${URL}user/signup`;
+    const signUpUrl = `${URL}user/signup`;
+    const signInUrl = `${URL}user/login`;
     const data = {
       email: user.email,
       password: user.password,
     };
 
     axios
-      .post(url, data)
+      .post(signUpUrl, data)
       .then((res) => {
         console.log(res);
-        navigate("/");
+        //SIGN IN
+        axios
+          .post(signInUrl, data)
+          .then((res) => {
+            setAuth(res.data);
+            const { AccessToken, RefreshToken, ExpiresIn, IdToken } =
+              res.data.AuthenticationResult;
+            setUserSession(
+              AccessToken,
+              RefreshToken,
+              ExpiresIn,
+              res.data.Username,
+              IdToken
+            );
+
+            navigate("/");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        // navigate("/");
       })
       .catch((err) => {
         setResponseMessage(err.response.data.message);

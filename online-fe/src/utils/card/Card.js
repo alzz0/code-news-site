@@ -2,15 +2,21 @@ import "./card.css";
 import { formatDate } from "../../helpers/formatDate";
 import { BsBookmark } from "react-icons/bs";
 import authRefreshToken from "../../service/authRefreshToken";
+import { getUser } from "../../service/AuthService";
 export const Card = ({ items }) => {
   const posts = items.map((post) => {
     const date = formatDate(parseInt(post.uploadDate));
 
     const handleSave = (e) => {
       console.log("Save this post:", post);
+      const payload = {
+        post: post.url,
+        user: getUser(),
+      };
       e.stopPropagation();
       authRefreshToken(
-        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/post/save"
+        "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/post/save",
+        payload
       );
     };
     const handleClick = () => {

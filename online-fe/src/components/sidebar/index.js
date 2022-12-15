@@ -18,7 +18,7 @@ import config from "../../config";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../service/AuthService";
-
+import authRefreshToken from "../../service/authRefreshToken";
 const Sidebar = () => {
   const navigate = useNavigate();
   const [selectedLabel, setSelecetedLabel] = useState("recent");
@@ -86,11 +86,27 @@ const Sidebar = () => {
 
     navigate("/");
   };
+
+  const handleSave = () => {
+    const payload = { user: getUser() };
+    authRefreshToken(
+      "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/post/getsaved",
+      payload
+    );
+
+    // fetchData(sorttype);
+    // window.scrollTo({
+    //   top: 0,
+    // });
+  };
+
   const handleClick = (label) => {
     navigate(`/${label}`);
     console.log(label);
-
     setSelecetedLabel(label);
+    if (label === "saved") {
+      handleSave();
+    }
   };
 
   return (

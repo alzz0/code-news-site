@@ -4,6 +4,7 @@ import { PostsContext } from "../../hooks/posts/PostsContext";
 import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 import useFetch from "../../hooks/posts/useFetch";
 import "./postGrid.css";
+import CreatePost from "../post/CreatePost";
 
 const PostGrid = () => {
   const { sortType, setSortType } = useContext(SortTypeContext);
@@ -60,6 +61,7 @@ const PostGrid = () => {
 
   return (
     <>
+      {/* <CreatePost /> */}
       <main style={styles.mainContainer}>
         <main style={styles.gridContainer}>
           <Card items={posts} />

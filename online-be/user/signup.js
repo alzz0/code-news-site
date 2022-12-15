@@ -13,7 +13,7 @@ module.exports.handler = async (event) => {
     }
 
     const { email, password } = JSON.parse(event.body);
-    const { user_pool_id } = process.env;
+    const { user_pool_id, user_table } = process.env;
 
     const params = {
       UserPoolId: user_pool_id,
@@ -53,9 +53,10 @@ module.exports.handler = async (event) => {
             createdAt: { S: date.toString() },
             bookmarks: { SS: [""] },
           },
-          TableName: "usersTable1",
+          TableName: user_table,
         };
         await dynamodb.putItem(paramsforDB).promise();
+        console.log(paramsforDB);
       } catch (error) {
         console.log(error);
       }
