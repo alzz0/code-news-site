@@ -19,6 +19,7 @@ import { SortTypeContext } from "../../hooks/posts/SortTypeContext";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../service/AuthService";
 import authRefreshToken from "../../service/authRefreshToken";
+import savedPost from "./savedPosts";
 const Sidebar = () => {
   const navigate = useNavigate();
   const [selectedLabel, setSelecetedLabel] = useState("recent");
@@ -28,6 +29,10 @@ const Sidebar = () => {
   const url = `${config.apiGateway.URL}posts`;
 
   const fetchData = async (sorttype) => {
+    console.log(selectedLabel);
+    if (selectedLabel) {
+      setPosts([]);
+    }
     const params = {
       page: 1,
       lastItem: "",
@@ -44,6 +49,7 @@ const Sidebar = () => {
 
     try {
       const res = await axios.post(url, params);
+      console.log(res);
       const items = res.data.Items;
 
       if (res.data.LastEvaluatedKey) {
@@ -87,17 +93,27 @@ const Sidebar = () => {
     navigate("/");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const payload = { user: getUser() };
-    authRefreshToken(
+    const data = await savedPost(
       "https://rz2sslew69.execute-api.us-east-1.amazonaws.com/dev/post/getsaved",
       payload
     );
+    const items = data.data;
+    setPosts([...items]);
 
+    console.log(data);
+    setSortType({
+      type: "",
+      page: 1,
+      lastItem: "",
+      lastPage: false,
+      loading: true,
+    });
     // fetchData(sorttype);
-    // window.scrollTo({
-    //   top: 0,
-    // });
+    window.scrollTo({
+      top: 0,
+    });
   };
 
   const handleClick = (label) => {

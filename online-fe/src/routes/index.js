@@ -14,6 +14,10 @@ import authRefreshToken from "../service/authRefreshToken";
 
 export default function Routing() {
   const [posts, setPosts] = useState([]);
+  const initialThemeState = localStorage.getItem("IdToken")
+    ? localStorage.getItem("theme")
+    : "dark";
+  const [theme, setTheme] = useState(initialThemeState);
 
   const [sortType, setSortType] = useState({
     type: "uploadDateLSI",
@@ -22,6 +26,11 @@ export default function Routing() {
     lastpage: false,
   });
 
+  if (theme === "dark" && localStorage.getItem("IdToken")) {
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
   useEffect(() => {
     const verifyUser = async () => {
       authRefreshToken(
@@ -31,12 +40,16 @@ export default function Routing() {
     verifyUser();
   }, []);
 
+  const themeMode = () => {
+    setTheme(localStorage.getItem("theme"));
+  };
+
   return (
     <SortTypeContext.Provider value={{ sortType, setSortType }}>
       <PostsContext.Provider value={{ posts, setPosts }}>
-        <div>
+        <div className="app App" data-theme={theme}>
           <Router>
-            <Navbar />
+            <Navbar theme={theme} />
             <main style={styles.mainContainer}>
               <aside style={styles.sidebar}>
                 <Sidebar />
@@ -47,7 +60,11 @@ export default function Routing() {
               <Route exact path="/saved" element={<SavedPosts />} />
               <Route exact path="/settings" element={<Settings />} />
               <Route exact path="/signin" element={<SignInAndUp />} />
-              <Route exact path="/profile" element={<Profile />} />
+              <Route
+                exact
+                path="/profile"
+                element={<Profile themeMode={themeMode} />}
+              />
             </Routes>
           </Router>
         </div>

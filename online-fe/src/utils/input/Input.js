@@ -7,6 +7,7 @@ export const Input = ({
   handleChange,
   placeholder,
   required = false,
+  disabled = false,
 }) => {
   return (
     <>
@@ -15,6 +16,7 @@ export const Input = ({
         name={name}
         required={required}
         accept={accept}
+        disabled={disabled}
         placeholder={placeholder}
         onChange={handleChange}
       />

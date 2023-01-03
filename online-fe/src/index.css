@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
   color: #121212;
-  transition: 0.3s;
+  
 }
 .dark-mode{
    color: #d7d7d7;
@@ -36,3 +36,38 @@ body::-webkit-scrollbar-thumb {
 /* body::-webkit-scrollbar-track-piece {
   display: none;
 } */
+
+
+
+
+:root {
+  --background: white;
+  --text-primary: black;
+  --text-secondary: royalblue;
+  --accent: purple;
+  transition: 0.3s;
+}
+[data-theme='dark'] {
+  --background: #121212;;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}
+
+
+.App {
+  color: var(--text-primary);
+  background-color: var(--background);
+  font-size: large;
+  font-weight: bold;
+  padding: 20px;
+  height: calc(100vh - 40px);
+  transition: all .5s;
+}
+button {
+  color: var(--text-primary);
+  background-color: var(--background);
+  border: 2px var(--text-primary) solid;
+  float: right;
+  transition: all .5s;
+}

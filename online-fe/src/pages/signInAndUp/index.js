@@ -101,6 +101,7 @@ const SignUp = () => {
 };
 
 const SignIn = () => {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -115,6 +116,7 @@ const SignIn = () => {
   };
 
   const submitForm = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const url = `${URL}user/login`;
@@ -135,7 +137,7 @@ const SignIn = () => {
           res.data.Username,
           IdToken
         );
-
+        setLoading(false);
         navigate("/");
       })
       .catch((err) => {
@@ -161,7 +163,8 @@ const SignIn = () => {
           placeholder="password"
           autoComplete="current-password"
         />
-        <Input type="submit" value="Sign In" />
+        <Input type="submit" value="Sign In" disabled={loading} />
+        {loading && "Signing you in .. "}
       </form>
     </>
   );

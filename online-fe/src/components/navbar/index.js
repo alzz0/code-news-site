@@ -3,7 +3,33 @@ import { NavLink } from "react-router-dom";
 import { getUser } from "../../service/AuthService";
 
 import logo192 from "../../logo.svg";
-export default function Navbar() {
+export default function Navbar({ theme }) {
+  const styles = {
+    navContainer: {
+      position: "fixed",
+      gridArea: "header",
+      display: "flex",
+      width: "100%",
+      height: "60px",
+      background: theme === "dark" ? "#121212" : "#fff",
+      top: "0",
+      zIndex: 3,
+    },
+    logo: {
+      marginRight: "auto",
+    },
+    navUl: {
+      display: "flex",
+      listStyle: "none",
+      justifyContent: "flex-end",
+      paddingLeft: 0,
+      width: "100%",
+      alignItems: "center",
+    },
+    navItems: {
+      marginRight: "35px",
+    },
+  };
   return (
     <div style={styles.navContainer}>
       <ul style={styles.navUl}>
@@ -21,29 +47,3 @@ export default function Navbar() {
     </div>
   );
 }
-
-const styles = {
-  navContainer: {
-    position: "fixed",
-    gridArea: "header",
-    display: "flex",
-    width: "100%",
-    height: "60px",
-    background: "#121212",
-    top: "0",
-  },
-  logo: {
-    marginRight: "auto",
-  },
-  navUl: {
-    display: "flex",
-    listStyle: "none",
-    justifyContent: "flex-end",
-    paddingLeft: 0,
-    width: "100%",
-    alignItems: "center",
-  },
-  navItems: {
-    marginRight: "20px",
-  },
-};

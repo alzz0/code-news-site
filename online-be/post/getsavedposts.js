@@ -20,24 +20,26 @@ module.exports.handler = async (event) => {
 
     const user = await dynamodb.getItem(params).promise();
     console.log("user", user.Item.bookmarks);
+    const formatBatchKeys = () => {
+      return user.Item.bookmarks.SS.map((elm) => {
+        return {
+          type: { S: "posts" },
+          url: { S: elm },
+        };
+      });
+    };
+    console.log(formatBatchKeys());
 
     const batchParams = {
       RequestItems: {
         postsTable1: {
-          Keys: [
-            { type: { S: "posts" } },
-            {
-              url: {
-                S: "https://www.orissapost.com/india-among-top-3-countries-originating-iot-malware-microsoft/",
-              },
-            },
-          ],
-          //   ProjectionExpression: "Albu÷mTitle",
+          Keys: formatBatchKeys(),
         },
       },
     };
     const posts = await dynamodb.batchGetItem(batchParams).promise();
-    console.log("posts", posts);
+    console.log("posts", posts.Responses.postsTable1);
+    const Items = posts.Responses.postsTable1;
     const response = {
       statusCode: 200,
       headers: {
@@ -45,7 +47,7 @@ module.exports.handler = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      body: "success",
+      body: JSON.stringify(Items),
       isBase64Encoded: false,
     };
     console.log("response: ", response);

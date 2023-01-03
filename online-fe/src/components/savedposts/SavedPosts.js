@@ -3,6 +3,7 @@ import PostGrid from "../post/PostGrid";
 import "./savedPosts.css";
 const SavedPosts = () => {
   const [saved, setSaved] = useState(false);
+  console.log(saved);
   return (
     <div className="savedContainer">
       <div className="savedHeader">

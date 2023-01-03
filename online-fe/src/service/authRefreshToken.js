@@ -21,7 +21,7 @@ const authRefreshToken = (url, payload) => {
           Authorization: `Bearer ${getIdToken()}`,
         },
       })
-      .then((res) => console.log(res))
+      .then((res) => res)
       .catch((err) => {
         console.log(err);
         if (!retryFetch) {
